@@ -8,5 +8,13 @@
 }
 
 body {
-    background-color: #333;
+    background-color: #2c363a;
+}
+
+.negative{
+    color: rgb(253, 52, 52);
+}
+
+.positive{
+    color: rgb(78, 212, 78);
 }

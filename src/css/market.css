@@ -7,6 +7,8 @@
   background-color: #21282b;
   color: white;
 
+  border-radius: 10px;
+
 }
 
 h1 {
@@ -18,6 +20,7 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
+
 
 th,
 td {

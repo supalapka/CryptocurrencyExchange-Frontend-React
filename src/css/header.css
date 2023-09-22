@@ -1,6 +1,9 @@
 header {
     background-color: #21282b;
     padding: 10px 0;
+    background-image: url('../../images/header-25.png');
+    background-size: cover; /* Adjust the image size */
+
 }
 
 header .headerElements {
@@ -17,18 +20,31 @@ header .headerElements {
     font-size: 22px;
     cursor: pointer;
     font-weight: 600;
+    background-color: rgba(0, 0, 0, 0.171);
+    box-shadow: -1px 1px 5px 8px rgba(0, 0, 0, 0.137);
+    box-shadow: -1px 1px 5px 3px rgba(0, 0, 0, 0.158);
+    border-radius: 2px;
+
 }
 
 
 nav ul li {
     display: inline;
     margin-right: 20px;
-}
+    padding: 4px;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.5s ease; 
+  }
+  
+  nav ul li:hover {
+    border-color: #fff; 
+  }
 
 nav ul li a {
     text-decoration: none;
     color: #fff;
 }
+
 
 .user a,
 .logo a {

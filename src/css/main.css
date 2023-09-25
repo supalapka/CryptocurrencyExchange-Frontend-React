@@ -21,3 +21,14 @@ body {
 .positive{
     color: rgb(78, 212, 78);
 }
+
+
+.default-bg{
+    background-color: #21282b;
+}
+
+.content{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}

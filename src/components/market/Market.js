@@ -23,12 +23,8 @@ class Market extends React.Component {
       .slice((page - 1) * itemsPerPage, page * itemsPerPage)
       .map((symbol) => {
         const name = nameLookup(symbol.slice(0, -4), { exact: true });
-        const imageUrl =
-          "https://cryptologos.cc/logos/" +
-          name.toLowerCase() +
-          "-" +
-          symbol.slice(0, -4).toLowerCase() +
-          "-logo.png";
+        const imageUrl = "https://cryptologos.cc/logos/" + name.toLowerCase()
+         + "-" + symbol.slice(0, -4).toLowerCase() + "-logo.png";
         return {
           symbol: symbol,
           price: "Loading..",
@@ -139,7 +135,7 @@ class Market extends React.Component {
     }
 
     return (
-      <div className="crypto-list">
+      <div className="crypto-list default-bg">
         <h1>Cryptocurrency Market</h1>
         <table>
           <thead>

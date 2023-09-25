@@ -48,7 +48,6 @@ class Register extends React.Component {
                     let jwt = loginResponse.data;
                     localStorage.setItem('jwt', jwt);
                     axios.defaults.headers.common['Authorization'] = 'Bearer ' + jwt;
-                    console.log(jwt);
                 }
             } catch (error) {
                 console.error('An error occurred:', error);

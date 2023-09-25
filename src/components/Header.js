@@ -6,7 +6,7 @@ import SearchWithSuggestions from "./SearchWithSuggestions";
 class Header extends React.Component {
   render() {
     return (
-      <header>
+      <header className="default-bg">
         <div className="headerElements">
           <div className="logo">
             <a href="/home">Crypto Exchange</a>

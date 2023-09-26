@@ -19,7 +19,7 @@ import {
   withDeviceRatio,
   withSize
 } from "react-financial-charts";
-import { useMarketData } from "./useMarketData";
+import axios from "axios";
 import OHLCTooltip from "./OHLCTooltip";
 
 const axisStyles = {
@@ -37,7 +37,7 @@ const coordinateStyles = {
 
 const zoomButtonStyles = {
   fill: "#383E55",
-  fillOpacity: 0.75,
+  fillOpacity: 1,
   strokeWidth: 0,
   textFill: "#9EAAC7"
 };
@@ -50,7 +50,6 @@ const crossHairStyles = {
 const openCloseColor = (d) => (d.close > d.open ? "#26a69a" : "#ef5350");
 
 // yExtentsCalculator: used from updating price series
-// https://github.com/react-financial/react-financial-charts/blob/main/packages/stories/src/features/updating/BasicLineSeries.tsx#L55
 const yExtentsCalculator = ({ plotData }) => {
   let min;
   let max;
@@ -68,6 +67,8 @@ const yExtentsCalculator = ({ plotData }) => {
 };
 
 const FinancialChart = ({
+  coinSymbol,
+  timeFrame,
   dateTimeFormat,
   height,
   margin,
@@ -75,10 +76,31 @@ const FinancialChart = ({
   ratio,
   width
 }) => {
-  const { data: initialData, loaded } = useMarketData();
-  const [resetCount, setResetCount] = useState(0);
+const [initialData, setInitialData] = useState();
+const [loaded, setLoaded] = useState(false);
+const [resetCount, setResetCount] = useState(0);
+
+useEffect(() => {
+  async function fetchCandlesHistory() {
+    const url = `https://localhost:44363/candles?Symbol=${coinSymbol}&Timeframe=${timeFrame}&Limit=1000`;
+    try {
+      const response = await axios.get(url);
+      const formattedData = response.data.map((data) => {
+        data.date = new Date(data.openTime);
+        return data;
+      });
+      setInitialData(formattedData);
+      setLoaded(true);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  fetchCandlesHistory();
+}, [timeFrame]);
+
 
   if (!loaded || !height || !ratio || !width) return null;
+
 
   const timeDisplayFormat = timeFormat(dateTimeFormat);
   const xScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor(
@@ -96,7 +118,6 @@ const FinancialChart = ({
   const barChartHeight = gridHeight / 5;
   const barChartOrigin = (_, h) => [0, h - barChartHeight];
 
-  // ChartCanvas is drawn from top to bottom
   return (
     <ChartCanvas
       height={height}
@@ -121,8 +142,8 @@ const FinancialChart = ({
         <BarSeries
           fillStyle={(d) =>
             d.close > d.open
-              ? "rgba(38, 166, 154, 0.3)"
-              : "rgba(239, 83, 80, 0.3)"
+              ? "rgba(38, 166, 154, 0.45)"
+              : "rgba(239, 83, 80, 0.45)"
           }
           yAccessor={(d) => d.volume}
         />
@@ -180,13 +201,20 @@ FinancialChart.propTypes = {
 
 FinancialChart.defaultProps = {
   dateTimeFormat: "%d %b '%y \xa0 %H:%M",
-  height: 0,
+  height: 600,
   margin: { left: 0, right: 48, top: 0, bottom: 24 },
   priceDisplayFormat: format(".2f"),
   ratio: 0,
   width: 0
 };
 
-export const PriceChart = withSize({ style: { minHeight: 600 } })(
+
+const EnhancedFinancialChart = withSize({ style: { minHeight: 600 } })(
   withDeviceRatio()(FinancialChart)
 );
+
+const PriceChart = ({ coinSymbol, timeFrame }) => {
+  return <EnhancedFinancialChart coinSymbol={coinSymbol} timeFrame={timeFrame} />;
+};
+
+export default PriceChart;

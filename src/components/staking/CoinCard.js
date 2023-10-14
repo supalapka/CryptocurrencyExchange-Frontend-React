@@ -1,6 +1,6 @@
 import React from "react";
 import "../../css/staking.css"
-import axios from "axios";
+import { wallet, stakingAPI, market } from "../../api/api";
 
 import { cryptoSymbol } from "crypto-symbol";
 const { nameLookup } = cryptoSymbol({});
@@ -41,12 +41,11 @@ class CoinCard extends React.Component {
 
     async fetchData() {
         try {
-            const response = await axios.get(`https://localhost:44363/auth/coin-amount/${this.props.coin.symbol}`);
-            this.setState({ userCoinAmount: response.data });
-            console.log(response.data);
+            const coinAmountresponse = await wallet.getCoinAmount(this.props.coin.symbol);
+            this.setState({ userCoinAmount: coinAmountresponse.data });
 
-            const response2 = await axios.get(`https://localhost:44363/market/price/${this.props.coin.symbol}`);
-            this.setState({ coinPrice: response2.data });
+            const coinPriceRespone = await market.getCoinPrice(this.props.coin.symbol);
+            this.setState({ coinPrice: coinPriceRespone.data });
         } catch (error) { console.log(error); }
     }
 
@@ -57,18 +56,13 @@ class CoinCard extends React.Component {
         }
         let duration = 1;
         if (this.state.inputStakeDurationInMonth == 4) // 4 option = 1year
-        duration = 12;
+            duration = 12;
         else if (this.state.inputStakeDurationInMonth == 3)
-        duration = 6;// 3 option = 6 month
+            duration = 6;// 3 option = 6 month
         else if (this.state.inputStakeDurationInMonth == 2)
-        duration = 3;// 3 option = 6 month
+            duration = 3;// 3 option = 6 month
 
-
-        axios.post(`https://localhost:44363/staking/create`, {
-            stakingCoinId: this.props.coin.id,
-            amount: this.state.inputCoinValue,
-            durationInMonth: duration,
-        });
+        await stakingAPI.createStaking(this.props.coin.id, this.state.inputCoinValue, duration);
     }
 
     render() {

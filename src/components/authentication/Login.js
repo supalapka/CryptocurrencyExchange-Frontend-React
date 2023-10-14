@@ -1,7 +1,7 @@
 import React from "react";
 import "../../css/main.css"
 import "../../css/authentication.css"
-import axios from "axios";
+import { auth } from "../../api/api";
 
 class Login extends React.Component {
   constructor(props) {
@@ -25,15 +25,7 @@ class Login extends React.Component {
     const { email, password } = this.state;
 
     try {
-      const loginResponse = await axios.post(`https://localhost:44363/login`, {
-        email: email,
-        password: password,
-      });
-
-      let jwt = loginResponse.data;
-      localStorage.setItem('jwt', jwt);
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + jwt;
-      console.log(jwt);
+      await auth.login(email, password);
     } catch (error) {
       console.error('An error occurred:', error);
     }

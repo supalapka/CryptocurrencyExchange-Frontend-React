@@ -1,7 +1,7 @@
 import React from "react";
 import "../../css/main.css"
 import "../../css/authentication.css"
-import axios from "axios";
+import { auth } from "../../api/api";
 
 class Register extends React.Component {
 
@@ -29,26 +29,12 @@ class Register extends React.Component {
     handleSubmit = async (event) => {
         event.preventDefault();
         const { email, password, confirmPassword } = this.state;
-        
+
         if (password === confirmPassword) {
             try {
-                const registerResponse = await axios.post(`https://localhost:44363/register`, {
-                    email: email,
-                    password: password,
-                });
-
-                if (registerResponse.status === 200) {
-                    console.log(registerResponse.data);
-
-                    const loginResponse = await axios.post(`https://localhost:44363/login`, {
-                        email: email,
-                        password: password,
-                    });
-
-                    let jwt = loginResponse.data;
-                    localStorage.setItem('jwt', jwt);
-                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + jwt;
-                }
+                const response = await auth.register(email, password);
+                if (response.status === 200)
+                    await auth.login(email, password);
             } catch (error) {
                 console.error('An error occurred:', error);
             }

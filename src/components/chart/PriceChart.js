@@ -19,8 +19,9 @@ import {
   withDeviceRatio,
   withSize
 } from "react-financial-charts";
-import axios from "axios";
+import { chartAPI } from "../../api/api";
 import OHLCTooltip from "./OHLCTooltip";
+
 
 const axisStyles = {
   strokeStyle: "#383E55", // Color.GRAY
@@ -76,31 +77,29 @@ const FinancialChart = ({
   ratio,
   width
 }) => {
-const [initialData, setInitialData] = useState();
-const [loaded, setLoaded] = useState(false);
-const [resetCount, setResetCount] = useState(0);
+  const [initialData, setInitialData] = useState();
+  const [loaded, setLoaded] = useState(false);
+  const [resetCount, setResetCount] = useState(0);
 
-useEffect(() => {
-  async function fetchCandlesHistory() {
-    const url = `https://localhost:44363/candles?Symbol=${coinSymbol}&Timeframe=${timeFrame}&Limit=1000`;
-    try {
-      const response = await axios.get(url);
-      const formattedData = response.data.map((data) => {
-        data.date = new Date(data.openTime);
-        return data;
-      });
-      setInitialData(formattedData);
-      setLoaded(true);
-    } catch (error) {
-      console.error(error);
+  useEffect(() => {
+    async function fetchCandlesHistory() {
+
+      try {
+        const response = await chartAPI.getCandlesHistory(coinSymbol, timeFrame);
+        const formattedData = response.data.map((data) => {
+          data.date = new Date(data.openTime);
+          return data;
+        });
+        setInitialData(formattedData);
+        setLoaded(true);
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }
-  fetchCandlesHistory();
-}, [timeFrame]);
-
+    fetchCandlesHistory();
+  }, [timeFrame]);
 
   if (!loaded || !height || !ratio || !width) return null;
-
 
   const timeDisplayFormat = timeFormat(dateTimeFormat);
   const xScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor(
@@ -207,7 +206,6 @@ FinancialChart.defaultProps = {
   ratio: 0,
   width: 0
 };
-
 
 const EnhancedFinancialChart = withSize({ style: { minHeight: 600 } })(
   withDeviceRatio()(FinancialChart)

@@ -1,6 +1,7 @@
 import React from "react";
 import "../../css/market.css";
 import { allCryptoSymbols } from "../../utils";
+import { CryptoItem } from "./CryptoItem";
 
 import { cryptoSymbol } from "crypto-symbol";
 const { nameLookup } = cryptoSymbol({});
@@ -24,7 +25,7 @@ class Market extends React.Component {
       .map((symbol) => {
         const name = nameLookup(symbol.slice(0, -4), { exact: true });
         const imageUrl = "https://cryptologos.cc/logos/" + name.toLowerCase()
-         + "-" + symbol.slice(0, -4).toLowerCase() + "-logo.png";
+          + "-" + symbol.slice(0, -4).toLowerCase() + "-logo.png";
         return {
           symbol: symbol,
           price: "Loading..",
@@ -146,31 +147,8 @@ class Market extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.cryptocurrencies.map((crypto, index) => (
-              <tr key={index}>
-                <td>
-                  <a href={`/market/${crypto.name}`}>
-                    <div className="currency-name">
-                      <img alt="logo" src={crypto.image}></img>{" "}
-                      <p>
-                        {crypto.name}{" "}
-                        <span className="small-symbol">
-                          {" "}
-                          ({crypto.symbol.slice(0, -4)}){" "}
-                        </span>{" "}
-                      </p>
-                    </div>
-                  </a>
-                </td>
-                <td>
-                  <p> ${parseFloat(crypto.price).toFixed(2)}</p>
-                </td>
-                <td>
-                  <p className={crypto.change > 0 ? "positive" : "negative"}>
-                    {parseFloat(crypto.change).toFixed(2)}%
-                  </p>
-                </td>
-              </tr>
+            {this.state.cryptocurrencies.map((coin, index) => (
+              <CryptoItem coin={coin} key={index} />
             ))}
           </tbody>
         </table>
@@ -182,9 +160,7 @@ class Market extends React.Component {
             onClick={() =>
               this.updatePage(
                 Math.floor(allCryptoSymbols.length / itemsPerPage) + 1
-              )
-            }
-          >
+              )}>
             &raquo;
           </a>
         </div>

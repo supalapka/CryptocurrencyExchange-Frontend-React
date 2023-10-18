@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "../../css/coinpage.module.css";
-
 import PriceChart from "../chart/PriceChart";
 import BuySellComponent from "./BuySellComponent";
+import { withRouter } from 'react-router-dom';
+
 
 import { cryptoSymbol } from "crypto-symbol";
 const { nameLookup } = cryptoSymbol({});
@@ -12,9 +13,9 @@ class CoinPage extends React.Component {
         super(props);
         this.state = {
             timeFrame: "1h",
-            symbol: "ETH",
-            name: "", //moveto props
-            image: "", // move to props
+            symbol: (window.location.href.split('/')[4].toUpperCase()), //get symbol from url param
+            name: "",
+            image: "",
             price: 0,
             changes24: 0,
             userBalance: {

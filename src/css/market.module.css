@@ -1,57 +1,49 @@
-.crypto-list {
+.cryptoList {
   margin-top: 200px;
   font-family: Arial, sans-serif;
   max-width: 800px;
   margin: 0 auto;
   color: white;
   border-radius: 10px;
-
+  width: 800px;
 }
 
-h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
 
-table {
+.cryptoList table {
   width: 100%;
   border-collapse: collapse;
 }
 
 
-th,
-td {
+.cryptoList th,
+.cryptoList td {
   border-bottom: 1px solid #6b6b6b;
   padding: 12px;
   text-align: center;
 }
 
-td a {
+.cryptoList td a {
   text-decoration: none;
   color: white;
 }
 
 
 
-tr:hover {
+.cryptoList tr:hover {
   background-color: #0000002c;
 }
 
-img {
+.image {
   width: 25px;
 }
 
 
-.small-symbol {
+.smallSymbol {
   font-size: 14px;
   color: rgb(163, 161, 161);
 }
 
-h1 {
-  text-align: center;
-  margin-top: 5px;
-  padding-top: 10px;
-}
+
 
 .pagination {
   display: inline-block;
@@ -76,4 +68,5 @@ h1 {
 
 .pagination a:hover:not(.active) {
   background-color: #3e4d52;
+  cursor: pointer;
 }

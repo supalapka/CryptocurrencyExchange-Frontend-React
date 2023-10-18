@@ -9,26 +9,47 @@
 
 body {
     background-image: url('../../images/main-background-97.png');
-    background-size: cover; /* Adjust the image size */
+    background-size: cover;
+    /* Adjust the image size */
     background-color: rgb(0, 131, 253);
 
 }
 
-.negative{
+.negative {
     color: rgb(253, 52, 52);
 }
 
-.positive{
+.positive {
     color: rgb(78, 212, 78);
 }
 
+.green {
+    background-color: rgb(0, 143, 12);
+}
 
-.default-bg{
+.red {
+    background-color: rgb(184, 1, 1);
+}
+
+
+.default-bg {
     background-color: #21282b;
 }
 
-.content{
+.content {
     display: flex;
-    justify-content: center; 
-    align-items: center; 
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 28px;
+    color: white;
+    font-weight: 600;
+    background-color: rgba(0, 0, 0, 0.377);
+    box-shadow: -1px 1px 5px 8px rgba(0, 0, 0, 0.253);
+    border-radius: 12px;
+    padding-bottom: 12px;
 }

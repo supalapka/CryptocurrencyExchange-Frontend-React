@@ -1,5 +1,5 @@
 import React from "react";
-import "../../css/coinpage.css";
+import styles from "../../css/coinpage.module.css";
 import { wallet } from "../../api/api"
 
 class BuySellComponent extends React.Component {
@@ -55,34 +55,34 @@ class BuySellComponent extends React.Component {
     render() {
         return (
             <div >
-                <div className="user-actions">
-                    <div className="form-input">
-                        <input type="range" className="custom-range" min="0" max={this.state.userBalance.usdt * 1000} onChange={this.handleUsdtAmountChange} />
-                        <div className="range-labels">
+                <div className={styles.userActions}>
+                    <div className={styles.formInput}>
+                        <input type="range" className={styles.buySellSlider} min="0" max={this.state.userBalance.usdt * 1000} onChange={this.handleUsdtAmountChange} />
+                        <div className={styles.rangeLabels}>
                             <span >0%</span>
                             <span>25%</span>
                             <span>50%</span>
                             <span>75%</span>
                             <span>100%</span>
                         </div >
-                        <div className="btn-block">
-                            <button className="action-btn green" onClick={this.buy}>Buy {this.props.symbol}</button>
+                        <div className={styles.btnBlock}>
+                            <button className={`${styles.actionBtn} green`} onClick={this.buy}>Buy {this.props.symbol}</button>
                             {this.state.inputUsdt > 0 && <p>{this.state.inputUsdt} USDT = {(this.state.inputUsdt / this.props.price).toFixed(3)}
                                 {this.props.symbol} </p>}
                         </div>
                     </div>
                     <br /> <br />
-                    <div className="form-input">
-                        <input type="range" className="custom-range" min="0" max={this.state.userBalance.coin * 1000} onChange={this.handleCoinAmountChange} />
-                        <div className="range-labels">
+                    <div className={styles.formInput}>
+                        <input type="range" className={styles.buySellSlider} min="0" max={this.state.userBalance.coin * 1000} onChange={this.handleCoinAmountChange} />
+                        <div className={styles.rangeLabels}>
                             <span >0%</span>
                             <span>25%</span>
                             <span>50%</span>
                             <span>75%</span>
                             <span>100%</span>
                         </div >
-                        <div className="btn-block">
-                            <button className="action-btn red" onClick={this.sell}>Sell {this.props.symbol}</button>
+                        <div className={styles.btnBlock}>
+                            <button className={`${styles.actionBtn} red`} onClick={this.sell}>Sell {this.props.symbol}</button>
                             {this.state.inputCoin > 0 && <p>{this.state.inputCoin} {this.props.symbol} = {
                                 (this.state.inputCoin * this.props.price).toFixed(2)} USDT</p>}
                         </div>

@@ -1,5 +1,6 @@
 import React from "react";
-import "../../css/coinpage.css";
+import styles from "../../css/coinpage.module.css";
+
 import PriceChart from "../chart/PriceChart";
 import BuySellComponent from "./BuySellComponent";
 
@@ -11,7 +12,7 @@ class CoinPage extends React.Component {
         super(props);
         this.state = {
             timeFrame: "1h",
-            symbol: "SOL",
+            symbol: "ETH",
             name: "", //moveto props
             image: "", // move to props
             price: 0,
@@ -72,8 +73,8 @@ class CoinPage extends React.Component {
     render() {
         return (
             <div >
-                <div className="chart-block">
-                    <div className="chart-top-panel">
+                <div>
+                    <div className={styles.chartTopPanel}>
                         <p>{this.state.symbol}/USDT</p>
                         <button onClick={() => this.handleButtonClick("1h")}>1h</button>
                         <button onClick={() => this.handleButtonClick("4h")}>4h</button>
@@ -81,14 +82,14 @@ class CoinPage extends React.Component {
                         <button onClick={() => this.handleButtonClick("1w")}>1w</button>
                         <button onClick={() => this.handleButtonClick("1M")}>1M</button>
                     </div>
-                    <div className="chart">
+                    <div className={styles.chart}>
                         <PriceChart coinSymbol={this.state.symbol} timeFrame={this.state.timeFrame} />
                     </div>
                 </div>
 
-                <div className="crypto-info">
-                    <img alt="logo" src={this.state.image} />
-                    <div className="coin-info">
+                <div className={styles.cryptoInfo}>
+                    <img alt="logo" className={styles.image} src={this.state.image} />
+                    <div className={styles.coinInfo}>
                         <h2>{this.state.name} ${parseFloat(this.state.price).toFixed(2)}</h2>
                         <p>24h Volume(USDT):  $ EDIT</p>
                         <p>24h Changes:

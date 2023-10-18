@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { allCryptoSymbols } from "../utils";
+import styles from "../css/header.module.css";
 
 class SearchWithSuggestions extends Component {
   constructor(props) {
@@ -24,15 +25,15 @@ class SearchWithSuggestions extends Component {
 
   render() {
     return (
-      <div className="dropdown">
+      <div className={styles.dropdown}>
         <input
           type="text"
           value={this.state.query}
           onChange={this.handleInputChange}
           placeholder="Search Coin"
-          className="search-input"
+          className={styles.searchInput}
         />
-        <div className="dropdown-content">
+        <div className={styles.dropdownContent}>
           {this.state.query &&
             this.state.suggestions.map((suggestion, index) => (
               <a key={index} href={`/market/${suggestion}`}>

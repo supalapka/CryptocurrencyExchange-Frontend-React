@@ -1,15 +1,39 @@
 import React from "react";
-import "../css/header.css";
-
+import styles from "../css/header.module.css";
 import SearchWithSuggestions from "./SearchWithSuggestions";
+import { auth } from "../api/api";
+import { Link } from "react-router-dom";
+
 
 class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoggedIn: false,
+      email: '',
+    };
+  }
+
+  async checkIfLoggedIn() {
+    const responce = await auth.checkIfLoggedIn();
+    if (responce.status == 200) {
+      this.setState({ isLoggedIn: true });
+      this.setState({ email: responce.data });
+    }
+  }
+
+  async componentDidMount() {
+    await this.checkIfLoggedIn();
+  }
+
+
   render() {
     return (
-      <header className="default-bg">
-        <div className="headerElements">
-          <div className="logo">
-            <a href="/home">Crypto Exchange</a>
+      <header className={`${styles.header} default-bg`}>
+
+        <div className={styles.headerElements}>
+          <div className={styles.logo}>
+            <Link to="/">Crypto Exchange</Link>
           </div>
 
           <SearchWithSuggestions />
@@ -17,18 +41,22 @@ class Header extends React.Component {
           <nav>
             <ul>
               <li>
-                <a href="/market">Market</a>
+                <Link to="/market">Market</Link>
               </li>
               <li>
-                <a href="/futures">Futures</a>
+                <Link to="/futures">Futures</Link>
               </li>
               <li>
-                <a href="/staking">Staking</a>
+                <Link to="/staking">Staking</Link>
               </li>
             </ul>
           </nav>
-          <div className="user">
-            <a href="/login">Login</a> / <a href="/register">Register</a>
+          <div className={styles.user}>
+            <Link to="/login">Login</Link> / <Link to="/register">Register</Link>
+            {/* {!this.state.isLoggedIn
+              ? <Link to="/profile">{this.state.email}</Link>
+              : <Link to="/login">Login</Link> / <Link to="/register">Register</Link>
+            } */}
           </div>
         </div>
       </header>

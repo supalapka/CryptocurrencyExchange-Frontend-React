@@ -1,5 +1,5 @@
 import React from "react";
-import "../../css/market.css";
+import styles from "../../css/market.module.css";
 import { allCryptoSymbols } from "../../utils";
 import { CryptoItem } from "./CryptoItem";
 
@@ -123,7 +123,7 @@ class Market extends React.Component {
     for (let i = 1; i <= allCryptoSymbols.length / itemsPerPage + 1; i++) {
       if (this.state.currentPage === i)
         paginationButtons.push(
-          <a key={i} onClick={() => this.updatePage(i)} className="active">
+          <a key={i} onClick={() => this.updatePage(i)} className={styles.active}>
             {i}
           </a>
         );
@@ -136,7 +136,7 @@ class Market extends React.Component {
     }
 
     return (
-      <div className="crypto-list default-bg">
+      <div className={`${styles.cryptoList} default-bg`}>
         <h1>Cryptocurrency Market</h1>
         <table>
           <thead>
@@ -153,7 +153,7 @@ class Market extends React.Component {
           </tbody>
         </table>
 
-        <div className="pagination">
+        <div className={styles.pagination}>
           <a onClick={() => this.updatePage(1)}>&laquo;</a>
           {paginationButtons}
           <a

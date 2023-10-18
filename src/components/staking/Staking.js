@@ -1,7 +1,8 @@
 import React from "react";
-import "../../css/staking.css"
+import styles from "../../css/staking.module.css"
 import CoinCard from "./CoinCard";
-import axios from "axios";
+import {stakingAPI} from "../../api/api";
+
 
 class Staking extends React.Component {
   constructor(props) {
@@ -11,38 +12,36 @@ class Staking extends React.Component {
     };
   }
 
-
   componentDidMount() {
     this.fetchData();
   }
 
   async fetchData() {
     try {
-      const response = await axios.get(`https://localhost:44363/staking/available-coins`);
+      const response = await stakingAPI.getCoins();
       this.setState({ stakingCoins: response.data });
-      console.log(response.data);
     } catch (error) { console.log(error); }
   }
 
   render() {
     return (
-      <div className="center-container">
-        <h1>Find&Stake your favorite coin</h1>
+      <div className={styles.centerContainer}>
+        <h1 className={styles.h1}>Find&Stake your favorite coin</h1>
         {this.state.stakingCoins && this.state.stakingCoins.length > 0 ? (
           <div>
-            <div className="row">
+            <div className={styles.row}>
               <CoinCard coin={this.state.stakingCoins[0]} />
               <CoinCard coin={this.state.stakingCoins[1]} />
             </div>
 
-            <div className="row">
+            <div className={styles.row}>
               <CoinCard coin={this.state.stakingCoins[2]} />
                <CoinCard coin={this.state.stakingCoins[3]} />
             </div>
           </div>
 
         ) : (
-          <p className="loading">Loading...</p>
+          <p className={styles.loading}>Loading...</p>
         )}
       </div>
     );

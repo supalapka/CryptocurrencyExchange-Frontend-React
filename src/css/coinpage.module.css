@@ -1,0 +1,121 @@
+.chart {
+  background-color: #1a2022;
+  width: 1500px;
+}
+
+.chartTopPanel {
+  color: white;
+  display: flex;
+  background-color: #13181a;
+  align-items: center;
+}
+
+.chartTopPanel p {
+  margin: 8px 16px;
+  font-size: 20px;
+}
+
+.chartTopPanel button {
+  background-color: #13181a;
+  color: white;
+  border: none;
+  margin: 2px 3px;
+  width: 28px;
+  height: 28px;
+  border-radius: 2px;
+}
+
+.chartTopPanel button:hover {
+  cursor: pointer;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cryptoInfo {
+  margin-top: 4px;
+  display: flex;
+  background-color: #1a2022f3;
+  color: #fff;
+  padding: 20px;
+  border: 1px solid #cccccc50;
+  border-radius: 10px;
+}
+
+.image {
+  height: 100px;
+  width: 100px;
+  margin: 50px;
+}
+
+.coinInfo {
+  margin: auto;
+  font-size: 20px;
+}
+
+.coinInfo p {
+  margin: 28px;
+}
+
+.userActions {
+  width: 700px;
+  color: #fff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  margin: 20px;
+  border: 1px solid #cccccc6e;
+  margin-left: 160px;
+}
+
+.buySellSlider {
+  width: 100%;
+  height: 10px;
+  cursor: pointer;
+}
+
+.buySellSlider::-webkit-slider-runnable-track {
+  height: 10px;
+  background: #405061;
+  border-radius: 4px;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
+}
+
+::-webkit-slider-thumb {
+  box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.15);
+  border-radius: 20px;
+  margin-top: -3px;
+  background: #d2d3d4;
+}
+
+.rangeLabels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  color: #999999e0;
+}
+
+.btnBlock {
+  display: flex;
+}
+
+.btnBlock p {
+  color: #d3d3d3;
+  margin: auto 12px;
+  font-size: 14px;
+}
+
+.actionBtn {
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.actionBtn:hover {
+  cursor: pointer;
+  box-shadow: -1px 1px 5px 4px rgba(1, 159, 180, 0.137);
+}

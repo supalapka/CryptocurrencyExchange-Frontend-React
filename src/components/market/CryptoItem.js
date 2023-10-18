@@ -1,4 +1,7 @@
 import React from "react";
+import styles from "../../css/market.module.css";
+import {Link} from "react-router-dom";
+
 import { cryptoSymbol } from "crypto-symbol";
 
 const { nameLookup } = cryptoSymbol({});
@@ -10,18 +13,16 @@ const CryptoItem = ({ coin }) => {
     return (
         <tr>
             <td>
-                <a href={`/market/${coin.symbol.slice(0, -4).toLowerCase()}`}>
-                    <div className="currency-name">
-                        <img alt="logo" src={imageUrl}></img>{" "}
-                        <p>
-                            {name}{" "}
-                            <span className="small-symbol">
-                                {" "}
-                                ({coin.symbol.slice(0, -4)}){" "}
-                            </span>{" "}
+                <Link to={`/market/${coin.symbol.slice(0, -4).toLowerCase()}`}>
+                    <div className={styles.currencyName}>
+                        <img alt="logo" className={styles.image} src={imageUrl}></img>
+                        <p> {name}
+                            <span className={styles.smallSymbol}>
+                                ({coin.symbol.slice(0, -4)})
+                            </span>
                         </p>
                     </div>
-                </a>
+                </Link>
             </td>
             <td>
                 <p> ${parseFloat(coin.price).toFixed(2)}</p>

@@ -1,4 +1,4 @@
-  .login-container {
+  .loginContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,7 +17,7 @@
     background: #fafafae8;
     overflow: hidden;
     animation: input_opacity 0.2s cubic-bezier(.55, 0, .1, 1);
-    box-shadow: 0 3px 3px  rgba(2, 0, 0, 0.466),
+    box-shadow: 0 3px 3px rgba(2, 0, 0, 0.466),
       0 2px 8px 0 rgba(0, 0, 0, 0.459),
       0 3px 1px -2px rgba(0, 0, 0, 0.466);
 
@@ -70,15 +70,13 @@
 
   }
 
-  /* Form */
-  .login-form {
+  .loginForm {
     padding: 15px;
     box-sizing: border-box;
   }
 
 
-  /* Inputs */
-  .login-input {
+  .loginInput {
     position: relative;
     width: 100%;
     padding: 10px 5px;
@@ -95,14 +93,13 @@
     transition: border-bottom 0.2s cubic-bezier(.55, 0, .1, 1);
   }
 
-  .login-input:focus {
+  .loginInput:focus {
     outline: none;
     border-bottom: 2px solid #21282b;
   }
 
 
-  /* Submit Button */
-  .submit-container {
+  .submitContainer {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -112,7 +109,7 @@
     border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
 
-  .login-button {
+  .loginButton {
     padding: 10px;
     border: none;
     border-radius: 3px;
@@ -128,10 +125,10 @@
   }
 
 
-  .login-button:hover {
+  .loginButton:hover {
     background: rgba(0, 0, 0, 0.05);
   }
 
-  .login-button.raised:hover {
+  .loginButton.raised:hover {
     background: #21282b;
   }

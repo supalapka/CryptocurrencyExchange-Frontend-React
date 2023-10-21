@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "../../css/authentication.module.css"
 import { auth } from "../../api/api";
+import { Navigate } from "react-router-dom";
+
 
 class Login extends React.Component {
   constructor(props) {
@@ -8,6 +10,7 @@ class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
+      succeed: null,
     };
   }
 
@@ -25,8 +28,12 @@ class Login extends React.Component {
 
     try {
       await auth.login(email, password);
+
+      this.setState({ succeed: true });
+
     } catch (error) {
       console.error('An error occurred:', error);
+      this.setState({ succeed: false });
     }
   };
 
@@ -45,6 +52,13 @@ class Login extends React.Component {
             <div className={styles.submitContainer}>
               <button type="submit" className={styles.loginButton}>SIGN IN</button>
             </div>
+            {typeof this.state.succeed === 'boolean' && (
+              this.state.succeed ? (
+                <Navigate to="/market" replace={true} />
+              ) : (
+                <p className="negative">Invalid email or password</p>
+              )
+            )}
           </form>
         </section>
       </div>

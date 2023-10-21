@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "../../css/authentication.module.css"
 import { auth } from "../../api/api";
+import { Navigate } from "react-router-dom";
+
 
 class Register extends React.Component {
 
@@ -10,6 +12,7 @@ class Register extends React.Component {
             email: '',
             password: '',
             confirmPassword: '',
+            succeed: null,
         };
     }
 
@@ -34,9 +37,12 @@ class Register extends React.Component {
                 const response = await auth.register(email, password);
                 if (response.status === 200)
                     await auth.login(email, password);
+                    this.setState({ succeed: true });
             } catch (error) {
                 console.error('An error occurred:', error);
             }
+        }else{
+            this.setState({ succeed: false });
         }
     };
 
@@ -56,6 +62,13 @@ class Register extends React.Component {
                         <div className={styles.submitContainer}>
                             <button type="submit" className={styles.loginButton}>SIGN UP</button>
                         </div>
+                        {typeof this.state.succeed === 'boolean' && (
+                            this.state.succeed ? (
+                                <Navigate to="/market" replace={true} />
+                            ) : (
+                                <p className="negative">Invalid data</p>
+                            )
+                        )}
                     </form>
                 </section>
             </div>

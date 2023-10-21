@@ -20,11 +20,11 @@ class BuySellComponent extends React.Component {
 
 
     handleCoinAmountChange = (e) => {
-        this.setState({ inputCoin: e.target.value / 1000 });
+        this.setState({ inputCoin: e.target.value  });
     }
 
     handleUsdtAmountChange = (e) => {
-        this.setState({ inputUsdt: e.target.value / 1000 });
+        this.setState({ inputUsdt: e.target.value  });
     }
 
     async componentDidMount() {
@@ -57,7 +57,7 @@ class BuySellComponent extends React.Component {
             <div >
                 <div className={styles.userActions}>
                     <div className={styles.formInput}>
-                        <input type="range" className={styles.buySellSlider} min="0" max={this.state.userBalance.usdt * 1000} onChange={this.handleUsdtAmountChange} />
+                        <input type="range" className={styles.buySellSlider} min="0" step="0.001" max={this.state.userBalance.usdt} onChange={this.handleUsdtAmountChange} />
                         <div className={styles.rangeLabels}>
                             <span >0%</span>
                             <span>25%</span>
@@ -73,7 +73,7 @@ class BuySellComponent extends React.Component {
                     </div>
                     <br /> <br />
                     <div className={styles.formInput}>
-                        <input type="range" className={styles.buySellSlider} min="0" max={this.state.userBalance.coin * 1000} onChange={this.handleCoinAmountChange} />
+                        <input type="range" className={styles.buySellSlider} min="0" max={this.state.userBalance.coin} step="0.0001" onChange={this.handleCoinAmountChange} />
                         <div className={styles.rangeLabels}>
                             <span >0%</span>
                             <span>25%</span>

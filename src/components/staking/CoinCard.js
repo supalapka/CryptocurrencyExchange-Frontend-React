@@ -21,7 +21,7 @@ class CoinCard extends React.Component {
 
 
     handleStakeAmountChange = (e) => {
-        this.setState({ inputCoinValue: e.target.value / 100 });
+        this.setState({ inputCoinValue: e.target.value});
     };
 
     handleStakeDurationChange = (e) => {
@@ -87,7 +87,7 @@ class CoinCard extends React.Component {
                         </div>
                     </div>
                 </div>
-                <input className={styles.slider} type="range" min="0" max={this.state.userCoinAmount * 100} onChange={this.handleStakeAmountChange} />
+                <input className={styles.slider} type="range" min="0" max={this.state.userCoinAmount} step="0.001" onChange={this.handleStakeAmountChange} />
                 <br />
                 <br />
                 <input className={styles.slider} type="range" min="1" max="4" step="1" onChange={this.handleStakeDurationChange} value={this.state.inputStakeDurationInMonth} />

@@ -1,8 +1,6 @@
 import axios from "axios";
 
 const jwt = localStorage.getItem('jwt');
-console.log(jwt);
-
 
 
 const instance = axios.create({
@@ -19,7 +17,6 @@ export const auth = {
       "password": password,
     }).then((response) => {
       if (response && response.data) {
-        console.log(response.data);
         localStorage.setItem('jwt', response.data);
         instance.defaults.headers = { Authorization: `Bearer ${response.data}` };
       }
@@ -32,6 +29,11 @@ export const auth = {
       password: password,
     });
     return registerResponse;
+  },
+
+  async checkIfLoggedIn(){
+    const responce = await instance.get(`email`);
+    return responce;
   }
 }
 
@@ -78,6 +80,11 @@ export const wallet = {
       }
     })
   },
+
+  async getWallet(){
+    const responce = await instance.get('auth/get-wallet');
+    return responce.data;
+  }
 }
 
 

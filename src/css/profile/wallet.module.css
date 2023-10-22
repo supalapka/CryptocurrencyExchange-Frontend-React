@@ -1,0 +1,55 @@
+.content{
+  width: 1000px;
+  min-height: 500px;
+}
+
+.walletTable {
+  color: white;
+  border-collapse: collapse; 
+  border-radius: 8px;
+  max-width: 1000px;
+}
+
+.walletTable tr{
+  height: 60px;
+}
+
+.walletTable tr:not(:first-child) {
+  border-bottom: 1px solid #6666661e; 
+}
+
+.walletTable td{
+  text-align: center;
+  vertical-align: middle;
+  align-items: center;
+}
+
+.walletTable th{
+  width: 300px;
+  padding: 16px 0;
+  background-color: #343a3f;
+  border-right: 1px solid #1d1e2e;
+}
+
+
+
+.walletTable img{
+  height: 24px;
+}
+
+.logoWithName{
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* Выравнивание по центру по горизонтали */
+  margin-left: 44px;
+}
+
+.logoWithName span{
+  color: rgb(150, 150, 150);
+  font-size: 12px;
+}
+
+.logoWithName p{
+  margin: 4px;
+}
+

@@ -1,0 +1,53 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.content {
+    background-color: #ffffffde;
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+}
+
+.errorCode {
+    font-size: 80px;
+    font-weight: bold;
+    color: #21282b;
+}
+
+.errorMessage {
+    font-size: 24px;
+    color: #1a1a1a;
+    margin-top: 10px;
+}
+
+.description {
+    font-size: 18px;
+    color: #333;
+    margin-top: 20px;
+}
+
+.button {
+    background-color: #21282b;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    margin-top: 30px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    display: inline-block;
+}
+
+.button:hover {
+    background-color: #3d4d53;
+}

@@ -7,10 +7,12 @@ import CoinPage from "./components/market/CoinPage";
 import Profile from "./components/userprofile/Profile";
 import Wallet from "./components/userprofile/Wallet";
 import UserStaking from "./components/userprofile/staking/UserStaking";
+import PageNotFound from "./PageNotFound";
 
 export const router = () => (
     <Routes>
         <Route path="/" element={<Market />} />
+        <Route path="*" element={<PageNotFound />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/staking" element={<Staking />} />

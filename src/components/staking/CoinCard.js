@@ -2,8 +2,8 @@ import React from "react";
 import styles from "../../css/staking.module.css"
 import { wallet, stakingAPI, market } from "../../api/api";
 
-import { cryptoSymbol } from "crypto-symbol";
-const { nameLookup } = cryptoSymbol({});
+import { cryptocurrencyAPI } from "../../api/cryptocurrencyAPI";
+
 
 class CoinCard extends React.Component {
     constructor(props) {
@@ -31,9 +31,8 @@ class CoinCard extends React.Component {
     componentDidMount() {
         this.fetchData();
         this.setState({ stakingMonthRate: this.props.coin.ratePerMonth });
-        const name = nameLookup(this.props.coin.symbol, { exact: true });
-        const imageUrl = "https://cryptologos.cc/logos/" + name.toLowerCase()
-            + "-" + this.props.coin.symbol.toLowerCase() + "-logo.png";
+        const name =  cryptocurrencyAPI.getName(this.props.coin.symbol);
+        const imageUrl = cryptocurrencyAPI.getImage(this.props.coin.symbol);
 
         this.setState({ coinName: name });
         this.setState({ coinImage: imageUrl });

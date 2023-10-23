@@ -1,14 +1,12 @@
 import React from "react";
 import styles from "../../css/market.module.css";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { cryptocurrencyAPI } from "../../api/cryptocurrencyAPI";
 
-import { cryptoSymbol } from "crypto-symbol";
-
-const { nameLookup } = cryptoSymbol({});
 
 const CryptoItem = ({ coin }) => {
-    const name = nameLookup(coin.symbol.slice(0, -4), { exact: true });
-    const imageUrl = `https://cryptologos.cc/logos/${name.toLowerCase()}-${coin.symbol.slice(0, -4).toLowerCase()}-logo.png`;
+    const name = cryptocurrencyAPI.getName(coin.symbol.slice(0, -4));
+    const imageUrl = cryptocurrencyAPI.getImage(coin.symbol.slice(0, -4));
 
     return (
         <tr>

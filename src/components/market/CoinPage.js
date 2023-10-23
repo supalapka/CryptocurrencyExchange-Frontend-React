@@ -2,11 +2,8 @@ import React from "react";
 import styles from "../../css/coinpage.module.css";
 import PriceChart from "../chart/PriceChart";
 import BuySellComponent from "./BuySellComponent";
-import { withRouter } from 'react-router-dom';
+import { cryptocurrencyAPI } from "../../api/cryptocurrencyAPI";
 
-
-import { cryptoSymbol } from "crypto-symbol";
-const { nameLookup } = cryptoSymbol({});
 
 class CoinPage extends React.Component {
     constructor(props) {
@@ -44,9 +41,9 @@ class CoinPage extends React.Component {
 
     async componentDidMount() {
         this.openWebSocket(`wss://stream.binance.com:9443/ws/${this.state.symbol.toLowerCase()}usdt@ticker`);
-        const name = nameLookup(this.state.symbol, { exact: true });
-        const imageUrl = "https://cryptologos.cc/logos/" + name.toLowerCase()
-            + "-" + this.state.symbol.toLowerCase() + "-logo.png";
+        const name = cryptocurrencyAPI.getName(this.state.symbol);
+        const imageUrl = cryptocurrencyAPI.getImage(this.state.symbol);
+        
         this.setState({ name: name });
         this.setState({ image: imageUrl });
     }

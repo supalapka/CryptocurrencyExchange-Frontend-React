@@ -2,8 +2,8 @@ import React from "react";
 import styles from "../../css/profile/wallet.module.css"
 import { wallet } from "../../api/api";
 import axios from "axios";
-import { cryptoSymbol } from "crypto-symbol";
-const { nameLookup } = cryptoSymbol({});
+import { cryptocurrencyAPI } from "../../api/cryptocurrencyAPI";
+
 
 
 class Wallet extends React.Component {
@@ -18,10 +18,10 @@ class Wallet extends React.Component {
   async componentDidMount() {
     const fetchCoins = await wallet.getWallet();
     const coinPromises = fetchCoins.map(async (coin) => {
-      coin.name = await nameLookup(coin.symbol, toString(), { exact: true });
+      coin.name = cryptocurrencyAPI.getName(coin.symbol);
+      coin.image = cryptocurrencyAPI.getImage(coin.symbol);
       const responsePrice = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=' + coin.symbol + '&tsyms=USD');
       coin.price = responsePrice.data.USD;
-      coin.image = 'https://cryptologos.cc/logos/' + coin.name.toLowerCase() + '-' + coin.symbol + '-logo.png';
       return coin;
     });
   

@@ -3,8 +3,8 @@ import styles from "../../css/market.module.css";
 import { allCryptoSymbols } from "../../utils";
 import { CryptoItem } from "./CryptoItem";
 
-import { cryptoSymbol } from "crypto-symbol";
-const { nameLookup } = cryptoSymbol({});
+import { cryptocurrencyAPI } from "../../api/cryptocurrencyAPI";
+
 
 const itemsPerPage = 9;
 
@@ -23,9 +23,8 @@ class Market extends React.Component {
     let currencies = allCryptoSymbols
       .slice((page - 1) * itemsPerPage, page * itemsPerPage)
       .map((symbol) => {
-        const name = nameLookup(symbol.slice(0, -4), { exact: true });
-        const imageUrl = "https://cryptologos.cc/logos/" + name.toLowerCase()
-          + "-" + symbol.slice(0, -4).toLowerCase() + "-logo.png";
+        const name = cryptocurrencyAPI.getName(symbol.slice(0, -4));
+        const imageUrl = cryptocurrencyAPI.getImage(symbol.slice(0, -4));
         return {
           symbol: symbol,
           price: "Loading..",

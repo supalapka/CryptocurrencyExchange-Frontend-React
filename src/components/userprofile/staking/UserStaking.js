@@ -18,9 +18,10 @@ class UserStaking extends React.Component {
         let completed = [];
 
         const fetchStakingCoins = await stakingAPI.getUserStakings();
+        console.log(fetchStakingCoins);
         fetchStakingCoins.map(async (coin) => {
-            coin.name = cryptocurrencyAPI.getName(coin.symbol);
-            coin.image = cryptocurrencyAPI.getImage(coin.symbol);
+            coin.name = cryptocurrencyAPI.getName(coin.stakingCoin.symbol);
+            coin.image = cryptocurrencyAPI.getImage(coin.stakingCoin.symbol);
 
             if (coin.isCompleted === false)
                 active.push(coin);

@@ -6,6 +6,7 @@ import Market from "./components/market/Market";
 import CoinPage from "./components/market/CoinPage";
 import Profile from "./components/userprofile/Profile";
 import Wallet from "./components/userprofile/Wallet";
+import UserStaking from "./components/userprofile/staking/UserStaking";
 
 export const router = () => (
     <Routes>
@@ -18,6 +19,7 @@ export const router = () => (
         <Route path="/profile" element={<Profile />}>
             <Route index element={<Navigate to="wallet" />} />
             <Route index path="wallet" element={<Wallet />} />
+            <Route path="staking" element={<UserStaking />} />
         </Route>
     </Routes>
 )

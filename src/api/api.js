@@ -49,6 +49,11 @@ export const stakingAPI = {
       amount: coinAmount,
       durationInMonth: duration,
     });
+  },
+
+  async getUserStakings(){
+    const responce =  await instance.get(`/staking/user-coins`);
+    return responce.data;
   }
 }
 

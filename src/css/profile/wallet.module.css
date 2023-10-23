@@ -1,6 +1,7 @@
 .content{
   width: 1000px;
-  min-height: 500px;
+  min-height: 200px;
+  margin-bottom: 50px;
 }
 
 .walletTable {
@@ -51,5 +52,11 @@
 
 .logoWithName p{
   margin: 4px;
+}
+
+.profitInCoins{
+  color: #b4b4b4dc;
+  font-size: 14px;
+  margin: 8px;
 }
 

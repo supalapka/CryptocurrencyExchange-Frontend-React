@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../../css/staking.module.css"
 import { wallet, stakingAPI, market } from "../../api/api";
-
+import { Link } from "react-router-dom";
 import { cryptocurrencyAPI } from "../../api/cryptocurrencyAPI";
 
 
@@ -21,17 +21,17 @@ class CoinCard extends React.Component {
 
 
     handleStakeAmountChange = (e) => {
-        this.setState({ inputCoinValue: e.target.value});
+        this.setState({ inputCoinValue: e.target.value });
     };
 
     handleStakeDurationChange = (e) => {
         this.setState({ inputStakeDurationInMonth: e.target.value });
     };
 
-    componentDidMount() {
-        this.fetchData();
+    async componentDidMount() {
+        await this.fetchData();
         this.setState({ stakingMonthRate: this.props.coin.ratePerMonth });
-        const name =  cryptocurrencyAPI.getName(this.props.coin.symbol);
+        const name = cryptocurrencyAPI.getName(this.props.coin.symbol);
         const imageUrl = cryptocurrencyAPI.getImage(this.props.coin.symbol);
 
         this.setState({ coinName: name });
@@ -62,7 +62,13 @@ class CoinCard extends React.Component {
             duration = 3;// 3 option = 6 month
 
         await stakingAPI.createStaking(this.props.coin.id, this.state.inputCoinValue, duration);
+
+        this.setState({ inputCoinValue: 0 });
+        this.setState({ inputStakeDurationInMonth: 0 });
+
+        await this.fetchData();
     }
+
 
     render() {
         return (
@@ -86,7 +92,7 @@ class CoinCard extends React.Component {
                         </div>
                     </div>
                 </div>
-                <input className={styles.slider} type="range" min="0" max={this.state.userCoinAmount} step="0.001" onChange={this.handleStakeAmountChange} />
+                <input className={styles.slider} type="range" min="0" max={this.state.userCoinAmount} step="0.001" value={this.state.inputCoinValue} onChange={this.handleStakeAmountChange} />
                 <br />
                 <br />
                 <input className={styles.slider} type="range" min="1" max="4" step="1" onChange={this.handleStakeDurationChange} value={this.state.inputStakeDurationInMonth} />
@@ -118,7 +124,9 @@ class CoinCard extends React.Component {
                     </div>
                 </div>
                 <div className={styles.buttonsBlock}>
-                    <button className={styles.btn}>Buy</button>
+                    <Link to={`/market/${this.props.coin.symbol}`}>
+                        <button className={styles.btn}>Buy</button>
+                    </Link>
                     <button className={styles.btn} onClick={() => this.stake()} disabled={this.state.userCoinAmount === 0}>Stake</button>
                 </div>
             </div>

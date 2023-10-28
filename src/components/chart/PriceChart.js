@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { format } from "d3-format";
 import { timeFormat } from "d3-time-format";
+import styles from "../../css/chart.module.css";
 import {
   discontinuousTimeScaleProviderBuilder,
   Chart,
@@ -80,24 +81,36 @@ const FinancialChart = ({
   const [initialData, setInitialData] = useState();
   const [loaded, setLoaded] = useState(false);
   const [resetCount, setResetCount] = useState(0);
+  const [myTimeFrame, setMyTimeFrame] = useState(timeFrame);
+  const [activeButton, setActiveButton] = useState(null);
+
 
   useEffect(() => {
-    async function fetchCandlesHistory() {
-
-      try {
-        const response = await chartAPI.getCandlesHistory(coinSymbol, timeFrame);
-        const formattedData = response.data.map((data) => {
-          data.date = new Date(data.openTime);
-          return data;
-        });
-        setInitialData(formattedData);
-        setLoaded(true);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchCandlesHistory();
+    setMyTimeFrame(timeFrame);
   }, [timeFrame]);
+
+  useEffect(() => {
+    fetchCandlesHistory(myTimeFrame);
+    setActiveButton(myTimeFrame);
+  }, [myTimeFrame]);
+
+  useEffect(() => {
+    fetchCandlesHistory(myTimeFrame);
+  }, [coinSymbol]);
+
+  async function fetchCandlesHistory(propTimeFrame) {
+    try {
+      const response = await chartAPI.getCandlesHistory(coinSymbol, propTimeFrame);
+      const formattedData = response.data.map((data) => {
+        data.date = new Date(data.openTime);
+        return data;
+      });
+      setInitialData(formattedData);
+      setLoaded(true);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   if (!loaded || !height || !ratio || !width) return null;
 
@@ -117,75 +130,99 @@ const FinancialChart = ({
   const barChartHeight = gridHeight / 5;
   const barChartOrigin = (_, h) => [0, h - barChartHeight];
 
+  const handleTimeFrameChange = (newTimeFrame) => {
+    setMyTimeFrame(newTimeFrame);
+  }
+
   return (
-    <ChartCanvas
-      height={height}
-      ratio={ratio}
-      width={width}
-      margin={margin}
-      seriesName={`Chart ${resetCount}`}
-      data={data}
-      xScale={xScale}
-      xAccessor={xAccessor}
-      displayXAccessor={displayXAccessor}
-      xExtents={xExtents}
-      zoomAnchor={lastVisibleItemBasedZoomAnchor}
-    >
-      {/* Volume Chart */}
-      <Chart
-        id={1}
-        height={barChartHeight}
-        origin={barChartOrigin}
-        yExtents={(d) => d.volume}
+    <div>
+      <div className={styles.chartTopPanel}>
+        <p>{coinSymbol}/USDT</p>
+        <button className={activeButton === "1h" ? styles.activeButton : ""}
+          onClick={() => handleTimeFrameChange("1h")}>1h</button>
+
+        <button className={activeButton === "4h" ? styles.activeButton : ""}
+          onClick={() => handleTimeFrameChange("4h")}>4h</button>
+
+        <button className={activeButton === "1d" ? styles.activeButton : ""}
+          onClick={() => handleTimeFrameChange("1d")}>1d</button>
+
+        <button className={activeButton === "1w" ? styles.activeButton : ""}
+          onClick={() => handleTimeFrameChange("1w")}>1w</button>
+
+        <button className={activeButton === "1M" ? styles.activeButton : ""}
+          onClick={() => handleTimeFrameChange("1M")}>1M</button>
+      </div>
+      <ChartCanvas
+        height={height}
+        ratio={ratio}
+        width={width}
+        margin={margin}
+        seriesName={`Chart ${resetCount}`}
+        data={data}
+        xScale={xScale}
+        xAccessor={xAccessor}
+        displayXAccessor={displayXAccessor}
+        xExtents={xExtents}
+        zoomAnchor={lastVisibleItemBasedZoomAnchor}
       >
-        <BarSeries
-          fillStyle={(d) =>
-            d.close > d.open
-              ? "rgba(38, 166, 154, 0.45)"
-              : "rgba(239, 83, 80, 0.45)"
-          }
-          yAccessor={(d) => d.volume}
-        />
-      </Chart>
+        {/* Volume Chart */}
+        <Chart
+          id={1}
+          height={barChartHeight}
+          origin={barChartOrigin}
+          yExtents={(d) => d.volume}
+        >
+          <BarSeries
+            fillStyle={(d) =>
+              d.close > d.open
+                ? "rgba(38, 166, 154, 0.45)"
+                : "rgba(239, 83, 80, 0.45)"
+            }
+            yAccessor={(d) => d.volume}
+          />
+        </Chart>
 
-      {/* Price Chart */}
-      <Chart id={2} yExtentsCalculator={yExtentsCalculator}>
-        <XAxis {...axisStyles} showGridLines />
-        <MouseCoordinateX
-          displayFormat={timeDisplayFormat}
-          {...coordinateStyles}
-        />
+        {/* Price Chart */}
+        <Chart id={2} yExtentsCalculator={yExtentsCalculator}>
+          <XAxis {...axisStyles} showGridLines />
+          <MouseCoordinateX
+            displayFormat={timeDisplayFormat}
+            {...coordinateStyles}
+          />
 
-        <YAxis {...axisStyles} showGridLines />  {/*price markers in the right panel*/}
-        <MouseCoordinateY
-          rectWidth={margin.right}
-          displayFormat={priceDisplayFormat}
-          {...coordinateStyles}
-        />
+          <YAxis {...axisStyles} showGridLines />  {/*price markers in the right panel*/}
+          <MouseCoordinateY
+            rectWidth={margin.right}
+            displayFormat={priceDisplayFormat}
+            {...coordinateStyles}
+          />
 
-        {/* YAxis close price highlight */}
-        <EdgeIndicator
-          itemType="last"
-          rectWidth={margin.right}
-          fill={openCloseColor}
-          lineStroke={openCloseColor}
-          displayFormat={priceDisplayFormat}
-          yAccessor={(d) => d.close}
-        />
+          {/* YAxis close price highlight */}
+          <EdgeIndicator
+            itemType="last"
+            rectWidth={margin.right}
+            fill={openCloseColor}
+            lineStroke={openCloseColor}
+            displayFormat={priceDisplayFormat}
+            yAccessor={(d) => d.close}
+          />
 
-        <CandlestickSeries />
-        <OHLCTooltip
-          origin={[8, 16]}
-          textFill={openCloseColor}
-          className="react-no-select"
-        />
-        <ZoomButtons
-          onReset={() => setResetCount(resetCount + 1)}
-          {...zoomButtonStyles}
-        />
-      </Chart>
-      <CrossHairCursor {...crossHairStyles} />
-    </ChartCanvas>
+          <CandlestickSeries />
+          <OHLCTooltip
+            origin={[8, 16]}
+            textFill={openCloseColor}
+            className="react-no-select"
+          />
+          <ZoomButtons
+            onReset={() => setResetCount(resetCount + 1)}
+            {...zoomButtonStyles}
+          />
+        </Chart>
+        <CrossHairCursor {...crossHairStyles} />
+      </ChartCanvas>
+    </div>
+
   );
 };
 

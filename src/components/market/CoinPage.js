@@ -27,7 +27,7 @@ class CoinPage extends React.Component {
     handleButtonClick = (timeframe) => {
         this.setState({ timeFrame: timeframe });
     }
-    
+
 
     handleCoinAmountChange = (e) => {
         this.setState({ inputCoin: e.target.value / 1000 });
@@ -43,7 +43,7 @@ class CoinPage extends React.Component {
         this.openWebSocket(`wss://stream.binance.com:9443/ws/${this.state.symbol.toLowerCase()}usdt@ticker`);
         const name = cryptocurrencyAPI.getName(this.state.symbol);
         const imageUrl = cryptocurrencyAPI.getImage(this.state.symbol);
-        
+
         this.setState({ name: name });
         this.setState({ image: imageUrl });
     }
@@ -72,14 +72,6 @@ class CoinPage extends React.Component {
         return (
             <div >
                 <div>
-                    <div className={styles.chartTopPanel}>
-                        <p>{this.state.symbol}/USDT</p>
-                        <button onClick={() => this.handleButtonClick("1h")}>1h</button>
-                        <button onClick={() => this.handleButtonClick("4h")}>4h</button>
-                        <button onClick={() => this.handleButtonClick("1d")}>1d</button>
-                        <button onClick={() => this.handleButtonClick("1w")}>1w</button>
-                        <button onClick={() => this.handleButtonClick("1M")}>1M</button>
-                    </div>
                     <div className={styles.chart}>
                         <PriceChart coinSymbol={this.state.symbol} timeFrame={this.state.timeFrame} />
                     </div>

@@ -3,32 +3,6 @@
   width: 1500px;
 }
 
-.chartTopPanel {
-  color: white;
-  display: flex;
-  background-color: #13181a;
-  align-items: center;
-}
-
-.chartTopPanel p {
-  margin: 8px 16px;
-  font-size: 20px;
-}
-
-.chartTopPanel button {
-  background-color: #13181a;
-  color: white;
-  border: none;
-  margin: 2px 3px;
-  width: 28px;
-  height: 28px;
-  border-radius: 2px;
-}
-
-.chartTopPanel button:hover {
-  cursor: pointer;
-}
-
 .content {
   display: flex;
   justify-content: center;

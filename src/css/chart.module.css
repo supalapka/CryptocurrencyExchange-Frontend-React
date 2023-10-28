@@ -1,0 +1,30 @@
+.chartTopPanel {
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.chartTopPanel p {
+    margin: 8px 16px;
+    font-size: 20px;
+}
+
+.chartTopPanel button{
+    background-color: #13181a;
+    color: white;
+    border: none;
+    margin: 2px 0px;
+    padding: 8px 20px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.chartTopPanel button:hover{
+    background-color: #2e3233;
+}
+
+.chartTopPanel button.activeButton {
+    background-color: #203942;
+    padding: 9px 22px;
+
+  }

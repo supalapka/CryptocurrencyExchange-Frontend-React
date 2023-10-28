@@ -154,7 +154,7 @@ const FinancialChart = ({
           onClick={() => handleTimeFrameChange("1M")}>1M</button>
       </div>
       <ChartCanvas
-        height={height}
+        height={height - 35} // 35 - height of chartTopPanel. FIX later 
         ratio={ratio}
         width={width}
         margin={margin}

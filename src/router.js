@@ -8,6 +8,7 @@ import Profile from "./components/userprofile/Profile";
 import Wallet from "./components/userprofile/Wallet";
 import UserStaking from "./components/userprofile/staking/UserStaking";
 import PageNotFound from "./PageNotFound";
+import FuturesPage from "./components/futures/FuturesPage"
 
 export const router = () => (
     <Routes>
@@ -23,5 +24,6 @@ export const router = () => (
             <Route index path="wallet" element={<Wallet />} />
             <Route path="staking" element={<UserStaking />} />
         </Route>
+        <Route path="/futures" element={<FuturesPage />} />
     </Routes>
 )

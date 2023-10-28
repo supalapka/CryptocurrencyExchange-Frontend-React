@@ -1,0 +1,70 @@
+.overflow {
+    overflow: auto;
+    max-height: 270px;
+}
+
+.positionsTable {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+
+.header {
+    font-weight: bold;
+    color: #a3a3a3;
+    font-size: 16px;
+    border-bottom: 1.5px solid #56595e;
+
+}
+
+.leverage {
+    color: rgb(207, 207, 21);
+    font-size: 15px;
+}
+
+.positionsRow {
+    border-bottom: 1px solid #34383e;
+    font-size: 15px;
+    text-align: center;
+    height: 40px;
+}
+
+.positionsRow .positionCell {
+    display: table-cell;
+    padding: 10px;
+}
+
+.showMoreBtn {
+    margin: 14px 0 0 20px;
+    color: white;
+    font-size: 14px;
+    background: linear-gradient(to right, #2d3b41, #21262b);
+    border: none;
+    width: 130px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: width 0.3s, height 0.3s;
+}
+
+.showMoreBtn:hover {
+    background: linear-gradient(to right, #384950, #272d33);
+    width: 140px;
+    height: 52px;
+}
+
+.pnlInfo {
+    margin: 20px 0 0 20px;
+}
+
+.row {
+    display: flex;
+}
+
+.btn{
+    color: rgb(207, 207, 21);
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: bold;
+}

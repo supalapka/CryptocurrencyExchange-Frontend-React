@@ -31,7 +31,7 @@ export const auth = {
     return registerResponse;
   },
 
-  async checkIfLoggedIn(){
+  async checkIfLoggedIn() {
     const responce = await instance.get(`email`);
     return responce;
   }
@@ -51,8 +51,8 @@ export const stakingAPI = {
     });
   },
 
-  async getUserStakings(){
-    const responce =  await instance.get(`/staking/user-coins`);
+  async getUserStakings() {
+    const responce = await instance.get(`/staking/user-coins`);
     return responce.data;
   }
 }
@@ -70,7 +70,7 @@ export const wallet = {
       amount: amount,
     }).catch(error => {
       if (error.response.status === 401) {
-       //route to login
+        //route to login
       }
     })
   },
@@ -81,12 +81,12 @@ export const wallet = {
       amount: amount,
     }).catch(error => {
       if (error.response.status === 401) {
-       //route to login
+        //route to login
       }
     })
   },
 
-  async getWallet(){
+  async getWallet() {
     const responce = await instance.get('auth/get-wallet');
     return responce.data;
   }
@@ -107,3 +107,86 @@ export const chartAPI = {
   }
 }
 
+
+
+export const calculatePercentChange = (
+  currentPrice,
+  entryPrice,
+  leverage,
+  position
+) => {
+  let percentChange = (((currentPrice - entryPrice) / entryPrice) * 100).toFixed(2);
+  percentChange = (percentChange * leverage).toFixed(2);
+  if (position === "Short") {
+    percentChange = (percentChange * -1).toFixed(2);
+  }
+  return percentChange;
+};
+
+
+export const futures = {
+  async openPosition(symbol, margin, leverage, price, positionParam) {
+    const responce = await instance.post(`/futures/create`, {
+      Symbol: symbol,
+      Margin: margin,
+      Leverage: leverage,
+      EntryPrice: price,
+      Position: positionParam
+    });
+    return responce;
+  },
+
+  async getFuturesHistory(page) {
+    let historyPositions = [];
+
+    await instance.get(`/futures/history/${page}`).then(
+      response => {
+        response.data.map(position => {
+          if (position.position === 0)
+            position.position = 'Long'
+          else
+            position.position = 'Short'
+
+          if (position.isLiquidated) {
+            position.percentChange = -100;
+            position.action = 'Liquidated';
+          }
+          else {
+            position.percentChange = calculatePercentChange(position.markPrice, position.entryPrice,
+              position.leverage, position.position);
+            position.action = 'Closed';
+          }
+          position.usdtPNL = (position.margin * (position.percentChange / 100)).toFixed(2);
+
+          historyPositions.push(position);
+        })
+      })
+
+    return historyPositions;
+  },
+
+  async getOpenedPositions() {
+    let openedPositions = [];
+
+    await instance.get(`/futures/list`).then(
+      response => {
+        response.data.map(position => {
+          if (position.position === 0)
+            position.position = 'Long'
+          else
+            position.position = 'Short'
+
+          openedPositions.push(position);
+        })
+      })
+
+    return openedPositions;
+  },
+
+  async closePosition(id, pnl, markPrice) {
+    await instance.get(`/futures/close?id=` + id + '&pnl=' + pnl + '&markPrice=' + markPrice)
+      .catch(error => {
+        console.log(error);
+      });
+  }
+}

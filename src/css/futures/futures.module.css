@@ -1,0 +1,188 @@
+.row {
+  display: flex;
+}
+
+.chart {
+  background-color: #1a2022;
+  width: 1100px;
+  margin: 4px;
+}
+
+.coinList {
+  margin: 4px 0;
+  background-color: #1a2022;
+  width: 370px;
+  height: 350px;
+  overflow-y: auto;
+}
+
+.input {
+  margin: 4px 0;
+  background-color: #1a2022;
+  width: 370px;
+  height: 250px;
+
+}
+
+.listtable {
+  color: white;
+  border-collapse: collapse;
+  width: 350px;
+}
+
+
+.listtable th {
+  height: 45px;
+  border-bottom: 1px solid #fcfcfc57;
+
+}
+
+.tableRow {
+  height: 35px;
+  border-bottom: 1px solid #ffffff1e;
+  margin-bottom: 80px;
+  cursor: pointer;
+}
+
+.listtable tr:hover {
+  background-color: #21292c;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+.listtable td {
+  text-align: center;
+  vertical-align: middle;
+  align-items: center;
+}
+
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+
+.inputSlider {
+  -webkit-appearance: none;
+  width: 95%;
+}
+
+.inputSlider:focus {
+  outline: none;
+}
+
+.inputSlider::-webkit-slider-runnable-track {
+  height: 12.8px;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+  background: #455053;
+}
+
+.inputSlider::-webkit-slider-thumb {
+  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+  border: 0px solid #000000;
+  height: 20px;
+  width: 39px;
+  border-radius: 7px;
+  background: #2e3e44;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -3.6px;
+}
+
+.inputSlider:focus::-webkit-slider-runnable-track {
+  background: #455053;
+}
+
+.btn{
+  border: none;
+  border-radius: 4px;
+  width: 130px;
+  height: 38px;
+  margin: 12px 24px 4px 24px;
+  color: white;
+  cursor: pointer;
+}
+
+.leverageContainer{
+  margin: 24px 0 16px 0;
+  width: 90%;
+}
+
+.greyInfo{
+  color: #a1a1a1;
+}
+
+.walletInfo{
+  align-self: flex-start;  
+  padding: 20px 4px 8px 0;
+}
+
+.flexRight{
+  margin: 0 12px;
+  align-self: flex-start;  
+}
+
+.green {
+  background: linear-gradient(to right, #098119, #05bd42);
+  box-shadow: 2px 2px 2px rgba(68, 165, 24, 0.384);
+  transition: width 0.3s, height 0.3s;
+
+}
+
+.red{
+  background: linear-gradient(to right, #a50f0f, #eb0202);
+  box-shadow: 2px 2px 2px rgba(255, 0, 0, 0.349);
+  transition: width 0.3s, height 0.3s;
+}
+
+.red:hover{
+  background: linear-gradient(to right, #881010, #b40101);
+}
+
+.green:hover{
+  background: linear-gradient(to right, #0a6616, #00a136);
+}
+
+.positions{
+  background-color: #1a2022;
+  width: 1430px;
+  min-height: 200px;
+  padding:0 24px;
+  color: white;
+  overflow: auto;
+}
+
+.positions h2 {
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom: 2px solid #646464;
+  display: inline-block;
+  margin: 24px 12px 0 20px;
+  padding-bottom: 4px;
+  cursor: pointer;
+}
+
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #21292c;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #181e20;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #323e42;
+}

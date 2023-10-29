@@ -9,6 +9,7 @@ import Wallet from "./components/userprofile/Wallet";
 import UserStaking from "./components/userprofile/staking/UserStaking";
 import PageNotFound from "./PageNotFound";
 import FuturesPage from "./components/futures/FuturesPage"
+import TransferCryptoForm from "./components/userprofile/TransferCryptoForm";
 
 export const router = () => (
     <Routes>
@@ -23,6 +24,7 @@ export const router = () => (
             <Route index element={<Navigate to="wallet" />} />
             <Route index path="wallet" element={<Wallet />} />
             <Route path="staking" element={<UserStaking />} />
+            <Route path="transfer" element={<TransferCryptoForm />} />
         </Route>
         <Route path="/futures" element={<FuturesPage />} />
     </Routes>

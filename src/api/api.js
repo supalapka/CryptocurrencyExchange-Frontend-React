@@ -89,6 +89,18 @@ export const wallet = {
   async getWallet() {
     const responce = await instance.get('auth/get-wallet');
     return responce.data;
+  },
+
+  async sendCrypto(receiverUserId, symbol, amount) {
+    const responce = await instance.post(`/auth/send`, {
+      symbol: symbol,
+      amount: amount,
+      receiver: receiverUserId
+    }).catch(error => {
+      console.log(error);
+    });;
+    
+    return responce;
   }
 }
 
@@ -188,5 +200,20 @@ export const futures = {
       .catch(error => {
         console.log(error);
       });
+  }
+}
+
+
+export const newsAPI = {
+  async getNews() {
+    const responce = await instance.get(`/get-news`);
+
+    const news = responce.data.map(element => {
+      const date = new Date(element.time)
+      const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' }
+      element.time = date.toLocaleDateString('en-US', dateOptions)
+      return element;
+    });
+    return news;
   }
 }

@@ -57,7 +57,8 @@ class BuySellComponent extends React.Component {
             <div >
                 <div className={styles.userActions}>
                     <div className={styles.formInput}>
-                        <input type="range" className={styles.buySellSlider} min="0" step="0.001" max={this.state.userBalance.usdt} onChange={this.handleUsdtAmountChange} />
+                        <input type="range" className={styles.buySellSlider} min="0" step="0.001" max={this.state.userBalance.usdt} 
+                        onChange={this.handleUsdtAmountChange}  value={this.state.inputUsdt}/>
                         <div className={styles.rangeLabels}>
                             <span >0%</span>
                             <span>25%</span>
@@ -73,7 +74,8 @@ class BuySellComponent extends React.Component {
                     </div>
                     <br /> <br />
                     <div className={styles.formInput}>
-                        <input type="range" className={styles.buySellSlider} min="0" max={this.state.userBalance.coin} step="0.0001" onChange={this.handleCoinAmountChange} />
+                        <input type="range" className={styles.buySellSlider} min="0" max={this.state.userBalance.coin} step="0.0001"
+                         onChange={this.handleCoinAmountChange} value={this.state.inputCoin} />
                         <div className={styles.rangeLabels}>
                             <span >0%</span>
                             <span>25%</span>

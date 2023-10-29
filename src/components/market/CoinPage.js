@@ -3,6 +3,7 @@ import styles from "../../css/coinpage.module.css";
 import PriceChart from "../chart/PriceChart";
 import BuySellComponent from "./BuySellComponent";
 import { cryptocurrencyAPI } from "../../api/cryptocurrencyAPI";
+import { BWebSocket } from "../../api/binanceWebSocketService"
 
 
 class CoinPage extends React.Component {
@@ -15,32 +16,16 @@ class CoinPage extends React.Component {
             image: "",
             price: 0,
             changes24: 0,
-            userBalance: {
-                usdt: 0,
-                coin: 0,
-            },
-            inputCoin: 0,
-            inputUsdt: 0,
+            volume24: 0,
         };
-    }
-
-    handleButtonClick = (timeframe) => {
-        this.setState({ timeFrame: timeframe });
-    }
-
-
-    handleCoinAmountChange = (e) => {
-        this.setState({ inputCoin: e.target.value / 1000 });
-    }
-
-
-    handleUsdtAmountChange = (e) => {
-        this.setState({ inputUsdt: e.target.value / 1000 });
+        this.updatePrice = this.updatePrice.bind(this);
     }
 
 
     async componentDidMount() {
-        this.openWebSocket(`wss://stream.binance.com:9443/ws/${this.state.symbol.toLowerCase()}usdt@ticker`);
+        const url = `wss://stream.binance.com:9443/ws/${this.state.symbol.toLowerCase()}usdt@ticker`;
+        BWebSocket.openWebSocket(url, this.updatePrice);
+
         const name = cryptocurrencyAPI.getName(this.state.symbol);
         const imageUrl = cryptocurrencyAPI.getImage(this.state.symbol);
 
@@ -49,24 +34,14 @@ class CoinPage extends React.Component {
     }
 
 
-    openWebSocket(url) {
-        const ws = new WebSocket(url);
-        ws.onopen = () => {
-            console.log("WebSocket connected");
-        };
-
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            this.setState({ price: data.c });
-            this.setState({ changes24: data.P });
-        };
-
-        ws.onclose = () => {
-            console.log("WebSocket closed");
-        };
-
-        this.setState({ ws });
+    updatePrice(data) {
+        console.log(data);
+        this.setState({ price: data.c });
+        this.setState({ changes24: data.P });
+        const parsedValue = parseFloat(data.q);
+        this.setState({ volume24: parsedValue.toLocaleString() });
     }
+
 
     render() {
         return (
@@ -81,7 +56,7 @@ class CoinPage extends React.Component {
                     <img alt="logo" className={styles.image} src={this.state.image} />
                     <div className={styles.coinInfo}>
                         <h2>{this.state.name} ${parseFloat(this.state.price).toFixed(2)}</h2>
-                        <p>24h Volume(USDT):  $ EDIT</p>
+                        <p>24h Volume: {this.state.volume24} USDT</p>
                         <p>24h Changes:
                             {this.state.changes24 > 0 && <span className="positive"> {this.state.changes24}% </span>}
                             {this.state.changes24 < 0 && <span className="negative"> {this.state.changes24}% </span>}

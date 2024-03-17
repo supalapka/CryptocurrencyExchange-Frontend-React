@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.3370871b.css",
-    "main.js": "/static/js/main.f227f0d7.js",
-    "static/media/main-background-97.png": "/static/media/main-background-97.20710ca861a12e130038.png",
-    "static/media/header-25.png": "/static/media/header-25.6b03446b494031655add.png",
-    "index.html": "/index.html",
-    "main.3370871b.css.map": "/static/css/main.3370871b.css.map",
-    "main.f227f0d7.js.map": "/static/js/main.f227f0d7.js.map"
+    "main.css": "/CryptocurrencyExchange-Frontend-React/static/css/main.85d23cf4.css",
+    "main.js": "/CryptocurrencyExchange-Frontend-React/static/js/main.f227f0d7.js",
+    "static/media/main-background-97.png": "/CryptocurrencyExchange-Frontend-React/static/media/main-background-97.20710ca861a12e130038.png",
+    "static/media/header-25.png": "/CryptocurrencyExchange-Frontend-React/static/media/header-25.6b03446b494031655add.png",
+    "index.html": "/CryptocurrencyExchange-Frontend-React/index.html",
+    "main.85d23cf4.css.map": "/CryptocurrencyExchange-Frontend-React/static/css/main.85d23cf4.css.map",
+    "main.f227f0d7.js.map": "/CryptocurrencyExchange-Frontend-React/static/js/main.f227f0d7.js.map"
   },
   "entrypoints": [
-    "static/css/main.3370871b.css",
+    "static/css/main.85d23cf4.css",
     "static/js/main.f227f0d7.js"
   ]
 }

@@ -10,7 +10,7 @@ class Header extends React.Component {
     super(props);
     this.state = {
       isLoggedIn: false,
-      email: '',
+      email: 'Loading..',
     };
   }
 
@@ -19,8 +19,10 @@ class Header extends React.Component {
       const responce = await auth.checkIfLoggedIn();
 
       if (responce.status === 200) {
-        this.setState({ isLoggedIn: true });
-        this.setState({ email: responce.data });
+        this.setState({
+          email: responce.data,
+          isLoggedIn: true
+        });
       }
     } catch (error) {
       if (error.response.status === 400) {
@@ -59,11 +61,15 @@ class Header extends React.Component {
             </ul>
           </nav>
           <div className={styles.user}>
-            <Link to="/login">Login</Link> / <Link to="/register">Register</Link>
-            {/* {!this.state.isLoggedIn
-              ? <Link to="/profile">{this.state.email}</Link>
-              : <Link to="/login">Login</Link> / <Link to="/register">Register</Link>
-            } */}
+
+            {this.state.isLoggedIn ? (
+              <Link to="/profile">{this.state.email}</Link>
+            ) : (
+              <>
+                <Link to="/login">Login</Link> / <Link to="/register">Register</Link>
+              </>
+            )}
+
           </div>
         </div>
       </header>

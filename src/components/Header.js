@@ -15,10 +15,17 @@ class Header extends React.Component {
   }
 
   async checkIfLoggedIn() {
-    const responce = await auth.checkIfLoggedIn();
-    if (responce.status == 200) {
-      this.setState({ isLoggedIn: true });
-      this.setState({ email: responce.data });
+    try {
+      const responce = await auth.checkIfLoggedIn();
+
+      if (responce.status === 200) {
+        this.setState({ isLoggedIn: true });
+        this.setState({ email: responce.data });
+      }
+    } catch (error) {
+      if (error.response.status === 400) {
+        // user are not log in
+      }
     }
   }
 

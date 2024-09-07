@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const jwt = localStorage.getItem('jwt');
+let isAuthorized = false;
 
 
 const instance = axios.create({
@@ -19,6 +20,7 @@ export const auth = {
       if (response && response.data) {
         localStorage.setItem('jwt', response.data);
         instance.defaults.headers = { Authorization: `Bearer ${response.data}` };
+        isAuthorized = true;
       }
     })
   },
@@ -44,6 +46,9 @@ export const stakingAPI = {
   },
 
   async createStaking(coinId, coinAmount, duration) {
+    if (isAuthorized === false)
+      return;
+
     await instance.post(`staking/create`, {
       stakingCoinId: coinId,
       amount: coinAmount,
@@ -52,6 +57,9 @@ export const stakingAPI = {
   },
 
   async getUserStakings() {
+    if (isAuthorized === false)
+      return;
+
     const responce = await instance.get(`/staking/user-coins`);
     return responce.data;
   }
@@ -60,11 +68,17 @@ export const stakingAPI = {
 
 export const wallet = {
   async getCoinAmount(symbol) {
+    if (isAuthorized === false)
+      return;
+
     const response = await instance.get(`auth/coin-amount/${symbol}`);
     return response.data;
   },
 
   async buy(symbol, amount) {
+    if (isAuthorized === false)
+      return;
+
     await instance.post('auth/buy', {
       coinSymbol: symbol,
       amount: amount,
@@ -76,6 +90,9 @@ export const wallet = {
   },
 
   async sell(symbol, amount) {
+    if (isAuthorized === false)
+      return;
+
     await instance.post('auth/sell', {
       coinSymbol: symbol,
       amount: amount,
@@ -87,11 +104,17 @@ export const wallet = {
   },
 
   async getWallet() {
+    if (isAuthorized === false)
+      return;
+
     const responce = await instance.get('auth/get-wallet');
     return responce.data;
   },
 
   async sendCrypto(receiverUserId, symbol, amount) {
+    if (isAuthorized === false)
+      return;
+
     const responce = await instance.post(`/auth/send`, {
       symbol: symbol,
       amount: amount,
@@ -99,7 +122,7 @@ export const wallet = {
     }).catch(error => {
       console.log(error);
     });;
-    
+
     return responce;
   }
 }
@@ -138,6 +161,9 @@ export const calculatePercentChange = (
 
 export const futures = {
   async openPosition(symbol, margin, leverage, price, positionParam) {
+    if (isAuthorized === false)
+      return;
+
     const responce = await instance.post(`/futures/create`, {
       Symbol: symbol,
       Margin: margin,
@@ -149,11 +175,14 @@ export const futures = {
   },
 
   async getFuturesHistory(page) {
+    if (isAuthorized === false)
+      return [];
+
     let historyPositions = [];
 
     await instance.get(`/futures/history/${page}`).then(
       response => {
-        response.data.map(position => {
+        response.data.forEach(position => {
           if (position.position === 0)
             position.position = 'Long'
           else
@@ -178,11 +207,14 @@ export const futures = {
   },
 
   async getOpenedPositions() {
+    if (isAuthorized === false)
+      return [];
+
     let openedPositions = [];
 
     await instance.get(`/futures/list`).then(
       response => {
-        response.data.map(position => {
+        response.data.forEach(position => {
           if (position.position === 0)
             position.position = 'Long'
           else

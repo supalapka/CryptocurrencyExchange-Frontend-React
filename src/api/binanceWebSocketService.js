@@ -1,37 +1,42 @@
-let ws = null;
+export class BWebSocket {
+  constructor() {
+    this.ws = null;
+    this.savedUrl = null;
+    this.savedName = null;
+  }
 
+  getUrlConnectionByCoins(coins) {
+    let url = "wss://stream.binance.com:9443/ws";
+    coins.forEach((symbol) => {
+      url += "/" + symbol.toLowerCase() + "@ticker";
+    });
+    return url;
+  }
 
-export const BWebSocket = {
+  openWebSocket(url, messageCallback, websocketName = '') {
+    this.ws = new WebSocket(url);
+    this.ws.onopen = () => {
+      console.log(websocketName + " WebSocket connected. URL: " + url);
+    };
 
-    getUrlConnectionByCoins(coins) {
-        let url = "wss://stream.binance.com:9443/ws";
-        coins.forEach((symbol) => {
-            url += "/" + symbol.toLowerCase() + "@ticker";
-        });
-        return url;
-    },
+    this.ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      messageCallback(data);
+    };
 
-    openWebSocket(url, messageCallback, websocketName = '') {
-        ws = new WebSocket(url);
-        ws.onopen = () => {
-          console.log(websocketName + " WebSocket connected");
-        };
-    
-        ws.onmessage = (event) => {
-          const data = JSON.parse(event.data);
-          messageCallback(data);
-        };
-    
-        ws.onclose = () => {
-          console.log("WebSocket closed");
-        };
-    
-      },
-    
-      closeWebSocket() {
-        if (ws && ws.readyState === WebSocket.OPEN) {
-          ws.close();
-        }
-      },
+    this.ws.onclose = () => {
+      console.log(this.savedName + " WebSocket closed. URL: " + this.savedUrl);
+    };
 
+    this.savedUrl = url;
+    this.savedName = websocketName;
+  }
+
+  closeWebSocket() {
+    if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+      this.ws.close();
+    } else {
+      console.log("Cannot close " + this.savedName + " WebSocket");
+    }
+  }
 }

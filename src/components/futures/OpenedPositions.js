@@ -9,6 +9,7 @@ class OpenedPositions extends React.Component {
         super(props);
         this.state = {
             positions: [],
+            binanceWebsocket: new BWebSocket(),
         };
         this.updatePositionStateCallback = this.updatePositionStateCallback.bind(this);
     }
@@ -20,14 +21,17 @@ class OpenedPositions extends React.Component {
         const uniqueSymbols = symbols.filter((symbol, index, array) => {// remove duplicates
             return array.indexOf(symbol) === index;
         });
-        const wbUrl = BWebSocket.getUrlConnectionByCoins(uniqueSymbols);
-        BWebSocket.openWebSocket(wbUrl, this.updatePositionStateCallback, "opened positions");
+        const wbUrl =  this.state.binanceWebsocket.getUrlConnectionByCoins(uniqueSymbols);
+        this.state.binanceWebsocket.openWebSocket(wbUrl, this.updatePositionStateCallback, "Opened positions");
     }
 
+    componentWillUnmount(){
+        this.state.binanceWebsocket.closeWebSocket();
+    }
 
     componentDidUpdate(prevProps) {
         if (this.props.positions !== prevProps.positions) {
-            BWebSocket.closeWebSocket(); //close old ws
+            this.state.binanceWebsocket.closeWebSocket(); //close old ws
 
             this.setState({ positions: this.props.positions });
             const symbols = this.props.positions.map(position => position.symbol);
@@ -35,13 +39,15 @@ class OpenedPositions extends React.Component {
                 return array.indexOf(symbol) === index;
             });
 
-            const wbUrl = BWebSocket.getUrlConnectionByCoins(uniqueSymbols);
-            BWebSocket.openWebSocket(wbUrl, this.updatePositionStateCallback, "opened positions");
+            const wbUrl = this.state.binanceWebsocket.getUrlConnectionByCoins(uniqueSymbols);
+            this.state.binanceWebsocket.openWebSocket(wbUrl, this.updatePositionStateCallback, "opened positions");
         }
     }
 
 
     updatePositionStateCallback(data) {
+        console.log(data);
+
         this.setState(prevState => ({
             positions: prevState.positions.map(position => {
                 if (position.symbol === data.s) {

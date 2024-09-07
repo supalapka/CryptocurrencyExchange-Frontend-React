@@ -10,16 +10,21 @@ class CoinList extends React.Component {
         super(props);
         this.state = {
             initialCoins: allCryptoSymbols.slice(0, 12),
-            coins: allCryptoSymbols.slice(0, 12).map((symbol) => ({ symbol }))
+            coins: allCryptoSymbols.slice(0, 12).map((symbol) => ({ symbol })),
+            binanceWebsocket: new BWebSocket(),
         };
 
         this.updatePrice = this.updatePrice.bind(this);
     }
 
     componentDidMount() {
-        const url = BWebSocket.getUrlConnectionByCoins(this.state.initialCoins);
-        BWebSocket.openWebSocket(url, this.updatePrice);
+        const url = this.state.binanceWebsocket.getUrlConnectionByCoins(this.state.initialCoins);
+        this.state.binanceWebsocket.openWebSocket(url, this.updatePrice, "Futures coin list");
     };
+
+    componentWillUnmount(){
+        this.state.binanceWebsocket.closeWebSocket();
+    }
 
 
     updatePrice(data) {

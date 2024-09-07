@@ -17,6 +17,7 @@ class CoinPage extends React.Component {
             price: 0,
             changes24: 0,
             volume24: 0,
+            binanceWebsocket: new BWebSocket(),
         };
         this.updatePrice = this.updatePrice.bind(this);
     }
@@ -24,7 +25,7 @@ class CoinPage extends React.Component {
 
     async componentDidMount() {
         const url = `wss://stream.binance.com:9443/ws/${this.state.symbol.toLowerCase()}usdt@ticker`;
-        BWebSocket.openWebSocket(url, this.updatePrice);
+        this.state.binanceWebsocket.openWebSocket(url, this.updatePrice, "Coin page");
 
         const name = cryptocurrencyAPI.getName(this.state.symbol);
         const imageUrl = cryptocurrencyAPI.getImage(this.state.symbol);
@@ -33,14 +34,20 @@ class CoinPage extends React.Component {
         this.setState({ image: imageUrl });
     }
 
+    componentWillUnmount() {
+        this.state.binanceWebsocket.closeWebSocket();
+    }
+
 
     updatePrice(data) {
         console.log(data);
+
         this.setState({ price: data.c });
         this.setState({ changes24: data.P });
         const parsedValue = parseFloat(data.q);
         this.setState({ volume24: parsedValue.toLocaleString() });
     }
+
 
 
     render() {

@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../../css/market.module.css";
 import { allCryptoSymbols } from "../../utils";
 import { CryptoItem } from "./CryptoItem";
+import { BWebSocket } from "../../api/binanceWebSocketService"
 
 import { cryptocurrencyAPI } from "../../api/cryptocurrencyAPI";
 
@@ -14,8 +15,11 @@ class Market extends React.Component {
     this.state = {
       currentPage: 1,
       cryptocurrencies: [],
-      ws: null,
+      binanceWebsocket: new BWebSocket(),
+
     };
+
+    this.updatePrice = this.updatePrice.bind(this);
   }
 
   getCryptocurrenciesByPage() {
@@ -78,43 +82,20 @@ class Market extends React.Component {
 
     this.setState({ currentPage: pageNumber }, () => {
       this.setState({ cryptocurrencies: this.getCryptocurrenciesByPage() });
-      this.closeWebSocket();
-      this.openWebSocket(this.fillWebSocketUrl());
+
+      this.state.binanceWebsocket.closeWebSocket();
+      this.state.binanceWebsocket.openWebSocket(this.fillWebSocketUrl(), this.updatePrice, "Market List")
     });
   }
 
-  openWebSocket(url) {
-    const ws = new WebSocket(url);
-    ws.onopen = () => {
-      console.log("WebSocket connected");
-    };
-
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      this.updatePrice(data);
-    };
-
-    ws.onclose = () => {
-      console.log("WebSocket closed");
-    };
-
-    this.setState({ ws });
-  }
-
-  closeWebSocket() {
-    const { ws } = this.state;
-    if (ws && ws.readyState === WebSocket.OPEN) {
-      ws.close();
-    }
-  }
 
   componentDidMount() {
     this.setState({ cryptocurrencies: this.getCryptocurrenciesByPage() });
-    this.openWebSocket(this.fillWebSocketUrl());
+    this.state.binanceWebsocket.openWebSocket(this.fillWebSocketUrl(), this.updatePrice, "Market List");
   }
 
   componentWillUnmount() {
-    this.closeWebSocket();
+    this.state.binanceWebsocket.closeWebSocket();
   }
 
   render() {

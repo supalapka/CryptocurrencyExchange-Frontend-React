@@ -3,7 +3,6 @@ import styles from "../css/header.module.css";
 import SearchWithSuggestions from "./SearchWithSuggestions";
 import { auth } from "../api/api";
 import { Link } from "react-router-dom";
-import { ema } from "react-financial-charts";
 
 
 class Header extends React.Component {
@@ -18,7 +17,7 @@ class Header extends React.Component {
   async componentDidMount() {
     const email = auth.getUserEmail();
 
-    if (email != '')
+    if (email !== '')
       this.setState({ email: email, isLoggedIn: true });
   }
 

@@ -3,6 +3,7 @@ import styles from "../css/header.module.css";
 import SearchWithSuggestions from "./SearchWithSuggestions";
 import { auth } from "../api/api";
 import { Link } from "react-router-dom";
+import { ema } from "react-financial-charts";
 
 
 class Header extends React.Component {
@@ -10,31 +11,16 @@ class Header extends React.Component {
     super(props);
     this.state = {
       isLoggedIn: false,
-      email: 'Loading..',
+      email: undefined,
     };
   }
 
-  async checkIfLoggedIn() {
-    try {
-      const responce = await auth.checkIfLoggedIn();
-
-      if (responce.status === 200) {
-        this.setState({
-          email: responce.data,
-          isLoggedIn: true
-        });
-      }
-    } catch (error) {
-      if (error.response.status === 400) {
-        // user are not log in
-      }
-    }
-  }
-
   async componentDidMount() {
-    await this.checkIfLoggedIn();
-  }
+    const email = auth.getUserEmail();
 
+    if (email != '')
+      this.setState({ email: email, isLoggedIn: true });
+  }
 
   render() {
     return (

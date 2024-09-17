@@ -2,7 +2,7 @@ import axios from "axios";
 
 const jwt = localStorage.getItem('jwt');
 let isAuthorized = false;
-
+let userEmail = '';
 
 const instance = axios.create({
   baseURL: 'https://localhost:44363/',
@@ -12,6 +12,7 @@ const instance = axios.create({
 });
 
 export const auth = {
+
   async login(email, password) {
     await instance.post(`login`, {
       "email": email,
@@ -34,8 +35,18 @@ export const auth = {
   },
 
   async checkIfLoggedIn() {
-    const responce = await instance.get(`email`);
-    return responce;
+    const response = await instance.get(`email`);
+    if (response.status === 200) {
+      isAuthorized = true;
+      userEmail = response.data;
+    }
+    return response;
+  },
+
+  getUserEmail() {
+    if (isAuthorized)
+      return userEmail;
+    else return '';
   }
 }
 
@@ -46,8 +57,10 @@ export const stakingAPI = {
   },
 
   async createStaking(coinId, coinAmount, duration) {
-    if (isAuthorized === false)
+    if (isAuthorized === false) {
+      console.log("user is not authorized to stake a coin");
       return;
+    }
 
     await instance.post(`staking/create`, {
       stakingCoinId: coinId,
@@ -57,11 +70,13 @@ export const stakingAPI = {
   },
 
   async getUserStakings() {
-    if (isAuthorized === false)
-      return;
+    if (isAuthorized === false) {
+      console.log("user is not authorized to get staked coins");
+      return [];
+    }
 
-    const responce = await instance.get(`/staking/user-coins`);
-    return responce.data;
+    const response = await instance.get(`/staking/user-coins`);
+    return response.data;
   }
 }
 
@@ -76,8 +91,10 @@ export const wallet = {
   },
 
   async buy(symbol, amount) {
-    if (isAuthorized === false)
+    if (isAuthorized === false) {
+      console.log("user is not authorized to buy crypto");
       return;
+    }
 
     await instance.post('auth/buy', {
       coinSymbol: symbol,
@@ -90,8 +107,10 @@ export const wallet = {
   },
 
   async sell(symbol, amount) {
-    if (isAuthorized === false)
+    if (isAuthorized === false) {
+      console.log("user is not authorized to sell crypto");
       return;
+    }
 
     await instance.post('auth/sell', {
       coinSymbol: symbol,
@@ -104,18 +123,20 @@ export const wallet = {
   },
 
   async getWallet() {
-    if (isAuthorized === false)
-      return;
+    if (isAuthorized === false) {
+      console.log("user is not authorized to get wallet info");
+      return [];
+    }
 
-    const responce = await instance.get('auth/get-wallet');
-    return responce.data;
+    const response = await instance.get('auth/get-wallet');
+    return response.data;
   },
 
   async sendCrypto(receiverUserId, symbol, amount) {
     if (isAuthorized === false)
       return;
 
-    const responce = await instance.post(`/auth/send`, {
+    const response = await instance.post(`/auth/send`, {
       symbol: symbol,
       amount: amount,
       receiver: receiverUserId
@@ -123,7 +144,7 @@ export const wallet = {
       console.log(error);
     });;
 
-    return responce;
+    return response;
   }
 }
 
@@ -161,17 +182,19 @@ export const calculatePercentChange = (
 
 export const futures = {
   async openPosition(symbol, margin, leverage, price, positionParam) {
-    if (isAuthorized === false)
+    if (isAuthorized === false) {
+      console.log("user is not authorized to open futures position");
       return;
+    }
 
-    const responce = await instance.post(`/futures/create`, {
+    const response = await instance.post(`/futures/create`, {
       Symbol: symbol,
       Margin: margin,
       Leverage: leverage,
       EntryPrice: price,
       Position: positionParam
     });
-    return responce;
+    return response;
   },
 
   async getFuturesHistory(page) {
@@ -238,9 +261,9 @@ export const futures = {
 
 export const newsAPI = {
   async getNews() {
-    const responce = await instance.get(`/get-news`);
+    const response = await instance.get(`/get-news`);
 
-    const news = responce.data.map(element => {
+    const news = response.data.map(element => {
       const date = new Date(element.time)
       const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' }
       element.time = date.toLocaleDateString('en-US', dateOptions)

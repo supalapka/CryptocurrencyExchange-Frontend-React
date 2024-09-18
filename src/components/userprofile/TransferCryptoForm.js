@@ -65,13 +65,13 @@ class TransferCryptoForm extends React.Component {
     return (
       <div className={styles.cryptoSendBlock}>
         <h2>Transfer Cryptocurrency</h2>
-        <p>
+        <p className={styles.defaultText}>
           Your payID - {this.state.coins.length > 0 ? (
             this.state.coins[0].userId
           ) : ('Loading..')} </p>
 
         <div className={styles.inputContainer}>
-          <select onChange={this.handleCurrencyChange}>
+          <select className={styles.inputForm}  onChange={this.handleCurrencyChange}>
             <option >Select currency</option>
             {this.state.coins.map((coin) => (
               <option >
@@ -82,13 +82,13 @@ class TransferCryptoForm extends React.Component {
         </div>
 
         <div className={styles.inputContainer}>
-          <input type="text" placeholder="User payID" onChange={this.handleReceiverIdChange} />
+          <input className={styles.inputForm} type="text" placeholder="User payID" onChange={this.handleReceiverIdChange} />
         </div>
         <span className={styles.error}>{this.state.payIDErrorText}</span>
 
 
         <div className={styles.inputContainer}>
-          <input type="number" placeholder="Amount" min={0} max={this.state.maxCoinAmount}
+          <input className={styles.inputForm} type="number" placeholder="Amount" min={0} max={this.state.maxCoinAmount}
             value={this.state.selectedCoinAmount} onChange={this.handleAmountChange} />
         </div>
         <p className={styles.error}>{this.state.amountError}</p>

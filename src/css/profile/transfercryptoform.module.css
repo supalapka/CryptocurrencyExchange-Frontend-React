@@ -17,7 +17,7 @@ h2 {
   color: transparent; 
 }
 
-p {
+.defaultText {
   font-size: 18px;
   margin-bottom: 10px;
 
@@ -28,8 +28,7 @@ p {
 }
 
 
-select, input {
-  width: 75%;
+.inputForm {  width: 75%;
   padding: 15px;
   border: none;
   background: rgba(0, 0, 0, 0.3); 

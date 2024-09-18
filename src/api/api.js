@@ -84,7 +84,7 @@ export const stakingAPI = {
 export const wallet = {
   async getCoinAmount(symbol) {
     if (isAuthorized === false)
-      return;
+      return 0;
 
     const response = await instance.get(`auth/coin-amount/${symbol}`);
     return response.data;

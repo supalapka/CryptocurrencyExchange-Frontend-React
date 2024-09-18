@@ -27,6 +27,15 @@ h2 {
   margin: 15px 0;
 }
 
+.coinAmountContainer{
+  background: rgba(0, 0, 0, 0.3); 
+  border-radius: 8px;
+  border: 2px solid transparent; 
+  margin: 0 120px;
+  position: relative;
+
+}
+
 
 .inputForm {  width: 75%;
   padding: 15px;
@@ -38,19 +47,26 @@ h2 {
   border-radius: 8px;
   border: 2px solid transparent; 
   transition: border-color 0.3s;
+  box-sizing: border-box;
 }
 
-select:focus, input:focus {
+.inputForm:focus{
   border-color: #a7a7a7c4;
 }
 
-select option {
+.inputForm option {
   background-color: #20272b;
   color: #fafafa;
   padding: 10px;
 }
 
-button {
+.inputForm[type="number"]::-webkit-outer-spin-button,
+.inputForm[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.btn {
   background-color: #a7a7a7; 
   background: linearrgb(206, 17, 17)nt(45deg, #a3a3a3, #c7c7c7); 
   border: none;
@@ -61,7 +77,23 @@ button {
   transition: background-color 0.3s;
 }
 
-button:hover {
+.inputInsideBtn{
+  position: absolute;
+
+  right: 0;
+  top: 0;
+  height: 100%;
+  padding: 0 10px;
+
+  background-color: transparent;
+  color: yellow;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+
+}
+
+.btn:hover {
   background: linear-gradient(45deg, #8f8f8f, #c7c7c7); 
 }
 

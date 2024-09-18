@@ -17,6 +17,7 @@ class TransferCryptoForm extends React.Component {
       payIDErrorText: '',
     };
     this.sendCrypto = this.sendCrypto.bind(this);
+    this.selectMaxCoins = this.selectMaxCoins.bind(this);
   }
 
   async componentDidMount() {
@@ -31,20 +32,30 @@ class TransferCryptoForm extends React.Component {
 
   handleCurrencyChange = (event) => {
     const values = event.target.value.split(' ');
-    this.setState({ selectedCoin: values[1] });
-    this.setState({ maxCoinAmount: values[2] });
+    this.setState({ selectedCoin: values[1],
+       maxCoinAmount: values[2],
+       selectedCoinAmount: 0
+      });
   };
 
   handleAmountChange = (event) => {
+    let amount =event.target.value;
+
     if (event.target.value > this.state.maxCoinAmount)
-      return;
-    this.setState({ selectedCoinAmount: event.target.value });
+      amount = this.state.maxCoinAmount;
+
+    this.setState({ selectedCoinAmount: amount});
     this.setState({ amountError: '' })
   };
+
 
   handleReceiverIdChange = (event) => {
     this.setState({ receiverUserId: event.target.value });
     this.setState({ payIDErrorText: '' })
+  }
+
+  selectMaxCoins(){
+    this.setState({selectedCoinAmount: this.state.maxCoinAmount});
   }
 
   async sendCrypto() {
@@ -88,13 +99,17 @@ class TransferCryptoForm extends React.Component {
 
 
         <div className={styles.inputContainer}>
-          <input className={styles.inputForm} type="number" placeholder="Amount" min={0} max={this.state.maxCoinAmount}
-            value={this.state.selectedCoinAmount} onChange={this.handleAmountChange} />
+          <div className={styles.coinAmountContainer}>
+          <input className={styles.inputForm}  style={{ background: 'transparent', width: '100%' }} type="number" placeholder="Amount" min={0} max={this.state.maxCoinAmount}
+            value={this.state.selectedCoinAmount} onChange={this.handleAmountChange}/> 
+
+            <button className={styles.inputInsideBtn} onClick={this.selectMaxCoins}>All</button>
+          </div>
         </div>
+
         <p className={styles.error}>{this.state.amountError}</p>
 
-
-        <button onClick={this.sendCrypto}>Transfer Cryptocurrency</button>
+        <button className={styles.btn} onClick={this.sendCrypto}>Transfer Cryptocurrency</button>
       </div>
     );
   }

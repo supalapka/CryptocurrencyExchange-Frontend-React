@@ -54,11 +54,11 @@ class CoinCard extends React.Component {
             return;
         }
         let duration = 1;
-        if (this.state.inputStakeDurationInMonth == 4) // 4 option = 1year
+        if (this.state.inputStakeDurationInMonth === 4) // 4 option = 1year
             duration = 12;
-        else if (this.state.inputStakeDurationInMonth == 3)
+        else if (this.state.inputStakeDurationInMonth === 3)
             duration = 6;// 3 option = 6 month
-        else if (this.state.inputStakeDurationInMonth == 2)
+        else if (this.state.inputStakeDurationInMonth === 2)
             duration = 3;// 3 option = 6 month
 
         await stakingAPI.createStaking(this.props.coin.id, this.state.inputCoinValue, duration);
